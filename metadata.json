@@ -1,0 +1,6 @@
+{
+  "name": "MaintainCopilot - Industrial Asset AI Copilot",
+  "description": "General-purpose agentic maintenance copilot for industrial machinery with deterministic prognostics, strict supervisor governance, RUL uncertainty ranges, and tamper-evident audit logging.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

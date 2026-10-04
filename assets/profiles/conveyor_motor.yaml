@@ -1,0 +1,58 @@
+asset_type: "conveyor_motor"
+criticality_class: "A"
+load_variable: "stator_current"
+description: "Heavy-duty 75kW induction motor driving primary bulk parcel sorting conveyor"
+
+sensors:
+  - name: "vibration_rms"
+    unit: "mm/s"
+    normal_range: [0.8, 3.5]
+    sampling_hz: 10.0
+    description: "Overall radial drive-end bearing vibration velocity RMS"
+  - name: "winding_temp"
+    unit: "deg_C"
+    normal_range: [45.0, 85.0]
+    sampling_hz: 0.1
+    description: "Embedded RTD temperature of stator windings"
+  - name: "stator_current"
+    unit: "A"
+    normal_range: [20.0, 110.0]
+    sampling_hz: 1.0
+    description: "RMS motor current indicating mechanical belt load"
+  - name: "belt_speed"
+    unit: "m/s"
+    normal_range: [1.2, 2.5]
+    sampling_hz: 1.0
+    description: "Tachometer conveyor belt linear speed"
+
+derived_features:
+  - "vibration_to_current_ratio"
+  - "thermal_gradient_per_hour"
+  - "slip_factor"
+
+failure_modes:
+  - name: "bearing_wear"
+    signature_hints:
+      - "Elevation in vibration_rms uncoupled from stator_current"
+      - "High frequency harmonic harmonics in drive-end bearing"
+      - "Secondary gradual rise in winding_temp over operating cycles"
+    severity: "CRITICAL"
+    primary_sensor: "vibration_rms"
+    description: "Inner/outer raceway fatigue degradation leading to impending cage seizure."
+  - name: "winding_overheating"
+    signature_hints:
+      - "winding_temp > 90 C sustained under rated stator_current"
+      - "Rapid thermal rise during ambient elevation"
+    severity: "HIGH"
+    primary_sensor: "winding_temp"
+    description: "Cooling fan clogging or insulation breakdown causing thermal degradation."
+  - name: "belt_slip"
+    signature_hints:
+      - "belt_speed drops while stator_current remains high"
+    severity: "MEDIUM"
+    primary_sensor: "belt_speed"
+    description: "Drive pulley friction loss or tensioner mechanical fatigue."
+
+manual_references:
+  - "SOP-MTR-04: Conveyor Motor Drive Bearing Replacement and Alignment Protocol"
+  - "MAN-ABB-M3BP: Manufacturer Service Guidelines for Process Performance Motors"

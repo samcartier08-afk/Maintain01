@@ -1,0 +1,63 @@
+asset_type: "centrifugal_pump"
+criticality_class: "A"
+load_variable: "flow_rate"
+description: "Multi-stage centrifugal water feed pump for cooling tower circuit"
+
+sensors:
+  - name: "suction_pressure"
+    unit: "bar"
+    normal_range: [1.5, 4.0]
+    sampling_hz: 1.0
+    description: "Inlet suction header pressure"
+  - name: "discharge_pressure"
+    unit: "bar"
+    normal_range: [8.0, 16.0]
+    sampling_hz: 1.0
+    description: "Pump outlet discharge pressure"
+  - name: "casing_vibration"
+    unit: "mm/s"
+    normal_range: [0.5, 3.2]
+    sampling_hz: 10.0
+    description: "Tri-axial pump casing velocity RMS"
+  - name: "flow_rate"
+    unit: "m3/h"
+    normal_range: [120.0, 480.0]
+    sampling_hz: 1.0
+    description: "Volumetric discharge throughput indicating operational load"
+  - name: "impeller_speed"
+    unit: "rpm"
+    normal_range: [1450.0, 1520.0]
+    sampling_hz: 1.0
+    description: "Main shaft rotational velocity"
+
+derived_features:
+  - "differential_head_pressure"
+  - "net_positive_suction_head_margin"
+  - "vibration_to_flow_deviation"
+
+failure_modes:
+  - name: "cavitation"
+    signature_hints:
+      - "Rapid broadband casing_vibration spike with crackling acoustic signature"
+      - "Drop in discharge_pressure relative to suction_pressure and flow_rate"
+      - "Fluctuating flow rate with intermittent pressure pulsations"
+    severity: "CRITICAL"
+    primary_sensor: "casing_vibration"
+    description: "Vapor bubble collapse causing severe pitting on impeller vanes and pressure loss."
+  - name: "impeller_erosion"
+    signature_hints:
+      - "Gradual reduction in differential pressure head for equivalent flow_rate"
+      - "Steady mild increase in vibration_rms at vane pass frequencies"
+    severity: "HIGH"
+    primary_sensor: "discharge_pressure"
+    description: "Abrasive particulate wear on impeller leading edges reducing pump efficiency."
+  - name: "mechanical_seal_leakage"
+    signature_hints:
+      - "Loss of seal buffer barrier fluid pressure"
+    severity: "MEDIUM"
+    primary_sensor: "casing_vibration"
+    description: "Face friction wear on silicon carbide mechanical seal rings."
+
+manual_references:
+  - "SOP-PMP-12: Centrifugal Pump Cavitation Mitigation and Impeller Inspection"
+  - "MAN-FLOWSERVE-HPX: API 610 Overhung Process Pump Operation and Overhaul"

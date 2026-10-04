@@ -1,0 +1,63 @@
+asset_type: "compressor"
+criticality_class: "A"
+load_variable: "motor_power"
+description: "Rotary screw air compressor delivering plant instrument air at 8.5 bar"
+
+sensors:
+  - name: "discharge_temp"
+    unit: "deg_C"
+    normal_range: [68.0, 96.0]
+    sampling_hz: 0.2
+    description: "Compressed air/oil mix discharge temperature"
+  - name: "oil_pressure"
+    unit: "bar"
+    normal_range: [3.5, 6.0]
+    sampling_hz: 1.0
+    description: "Lube oil injection manifold pressure"
+  - name: "vibration_velocity"
+    unit: "mm/s"
+    normal_range: [1.0, 4.2]
+    sampling_hz: 10.0
+    description: "Rotor airend vibration velocity RMS"
+  - name: "suction_pressure"
+    unit: "bar"
+    normal_range: [0.95, 1.05]
+    sampling_hz: 0.5
+    description: "Intake atmospheric filter differential pressure"
+  - name: "motor_power"
+    unit: "kW"
+    normal_range: [35.0, 160.0]
+    sampling_hz: 1.0
+    description: "Input electrical power denoting operational compression load"
+
+derived_features:
+  - "pressure_ratio"
+  - "specific_power_efficiency"
+  - "oil_temperature_delta"
+
+failure_modes:
+  - name: "oil_starvation_overheating"
+    signature_hints:
+      - "Steep monotonic increase in discharge_temp coupled with dipping oil_pressure"
+      - "Elevated high-frequency rotor vibration velocity"
+      - "Thermostatic valve stuck open or cooler core fouling"
+    severity: "CRITICAL"
+    primary_sensor: "discharge_temp"
+    description: "Insufficient oil flow to male/female rotors leading to thermal growth and catastrophic airend seizure."
+  - name: "rotor_unbalance"
+    signature_hints:
+      - "Dominant 1X running speed component in vibration_velocity"
+      - "Proportional increase with motor_power"
+    severity: "HIGH"
+    primary_sensor: "vibration_velocity"
+    description: "Deposit buildup or rotor profile damage causing unbalance."
+  - name: "intake_valve_leakage"
+    signature_hints:
+      - "Failure to unload properly, fluctuating suction_pressure"
+    severity: "MEDIUM"
+    primary_sensor: "suction_pressure"
+    description: "Pneumatic unloader valve diaphragm fatigue or seat contamination."
+
+manual_references:
+  - "SOP-CMP-07: Screw Compressor Oil Circuit Flushing and Cooler De-scaling"
+  - "MAN-ATLAS-GA110: Atlas Copco Oil-Injected Rotary Screw Maintenance Handbook"

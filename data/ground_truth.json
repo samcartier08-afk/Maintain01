@@ -1,0 +1,42 @@
+{
+  "generated_at": "2026-10-04T18:54:08.695682",
+  "reference_now": "2026-10-04T08:00:00",
+  "assets": {
+    "M-204": {
+      "asset_type": "conveyor_motor",
+      "injected_fault": "bearing_wear",
+      "fault_start_day": 42.0,
+      "fault_start_time": "2026-09-16T08:00:00",
+      "failure_critical_day": 58.6,
+      "failure_critical_time": "2026-10-02T22:24:00",
+      "artifact_day": 25.0,
+      "artifact_type": "load_spike_parcel_jam",
+      "artifact_time": "2026-08-30T12:00:00",
+      "lead_time_days_target": 16.6
+    },
+    "P-102": {
+      "asset_type": "centrifugal_pump",
+      "injected_fault": "cavitation",
+      "fault_start_day": 40.0,
+      "fault_start_time": "2026-09-14T08:00:00",
+      "failure_critical_day": 55.4,
+      "failure_critical_time": "2026-09-29T17:36:00",
+      "artifact_day": 20.0,
+      "artifact_type": "sensor_dropout_packet_gap",
+      "artifact_time": "2026-08-25T18:00:00",
+      "lead_time_days_target": 15.4
+    },
+    "C-301": {
+      "asset_type": "compressor",
+      "injected_fault": "oil_starvation_overheating",
+      "fault_start_day": 44.0,
+      "fault_start_time": "2026-09-18T08:00:00",
+      "failure_critical_day": 59.2,
+      "failure_critical_time": "2026-10-03T12:48:00",
+      "artifact_day": 30.0,
+      "artifact_type": "ambient_heatwave_transient",
+      "artifact_time": "2026-09-04T20:00:00",
+      "lead_time_days_target": 15.2
+    }
+  }
+}

@@ -1,0 +1,64 @@
+{
+  "evaluated_at": "2026-10-04T18:53:59.230689",
+  "summary": {
+    "total_assets_evaluated": 3,
+    "faults_detected_before_failure": 3,
+    "mean_detection_lead_time_days": 11.2,
+    "overall_false_alarm_rate_pct": 0.0,
+    "mean_rul_error_days": 5.1,
+    "artifacts_escalated_to_critical": 0
+  },
+  "per_asset": {
+    "M-204": {
+      "asset_type": "conveyor_motor",
+      "fault_detected": true,
+      "first_detection_day": 48.8,
+      "actual_failure_day": 58.6,
+      "detection_lead_time_days": 9.8,
+      "target_lead_time_days": 16.6,
+      "rul_predicted_p10_p50_p90": [
+        0.5,
+        1.5,
+        3.0
+      ],
+      "rul_error_days": 7.1,
+      "rul_confidence": "HIGH",
+      "artifact_escalated": false,
+      "artifact_handled_cleanly": true
+    },
+    "P-102": {
+      "asset_type": "centrifugal_pump",
+      "fault_detected": true,
+      "first_detection_day": 43.6,
+      "actual_failure_day": 55.4,
+      "detection_lead_time_days": 11.8,
+      "target_lead_time_days": 15.4,
+      "rul_predicted_p10_p50_p90": [
+        0.5,
+        1.5,
+        3.0
+      ],
+      "rul_error_days": 3.9,
+      "rul_confidence": "HIGH",
+      "artifact_escalated": false,
+      "artifact_handled_cleanly": true
+    },
+    "C-301": {
+      "asset_type": "compressor",
+      "fault_detected": true,
+      "first_detection_day": 47.1,
+      "actual_failure_day": 59.2,
+      "detection_lead_time_days": 12.1,
+      "target_lead_time_days": 15.2,
+      "rul_predicted_p10_p50_p90": [
+        0.1,
+        13.4,
+        31.0
+      ],
+      "rul_error_days": 4.2,
+      "rul_confidence": "HIGH",
+      "artifact_escalated": false,
+      "artifact_handled_cleanly": true
+    }
+  }
+}

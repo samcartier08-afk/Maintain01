@@ -1,0 +1,16 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "maintain-copilot"
+version = "0.1.0"
+description = "General-purpose agentic Maintenance Copilot for industrial machinery"
+readme = "README.md"
+requires-python = ">=3.10"
+authors = [{ name = "MaintainCopilot Architecture Team" }]
+dependencies = []
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
