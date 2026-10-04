@@ -120,5 +120,996 @@
       "summary": "{'planned_repair_cost': 13295.0, 'catastrophic_failure_cost': 49500.0, 'cost_savings': 36205.0, 'planned_downtime_hours': 3.5, 'catastrophic_downtime_hours': 12.2, 'downtime_rate': 3500.0}"
     },
     "is_tamper_verified": 1
+  },
+  {
+    "id": "AUD-000008",
+    "sequence_num": 8,
+    "prev_hash": "6d9af195bc7f22cac5c6abe4956c087fb1fddfec99f535c6bb2ea649b7a6d6d8",
+    "current_hash": "b8cdab0ce7e1acfcf8eb22338be639fff770028ed63b25b0e212fff8b8a71cb8",
+    "timestamp": "2026-10-04T18:54:50.172229",
+    "actor_role": "agent",
+    "actor_name": "MaintainCopilot_Specialist",
+    "action_type": "tool_call:get_health",
+    "payload": {
+      "args": {
+        "asset_id": "M-204"
+      },
+      "summary": "{'asset_id': 'M-204', 'asset_type': 'conveyor_motor', 'health_score': 5.0, 'risk_level': 'CRITICAL', 'anomaly_score': 1.0, 'is_anomaly': True, 'top_signal_contributions': {'belt_speed': 0.0, 'winding_"
+    },
+    "is_tamper_verified": 1
+  },
+  {
+    "id": "AUD-000009",
+    "sequence_num": 9,
+    "prev_hash": "b8cdab0ce7e1acfcf8eb22338be639fff770028ed63b25b0e212fff8b8a71cb8",
+    "current_hash": "62a30bd24b24068d84e1c6fb45296458b7b6c1d4fd89f3b332c35754087e5ca1",
+    "timestamp": "2026-10-04T18:54:50.246549",
+    "actor_role": "agent",
+    "actor_name": "MaintainCopilot_Specialist",
+    "action_type": "tool_call:rank_fault_hypotheses",
+    "payload": {
+      "args": {
+        "asset_id": "M-204"
+      },
+      "summary": "[{'failure_mode': 'bearing_wear', 'probability': 0.95, 'severity': 'CRITICAL', 'primary_sensor': 'vibration_rms', 'evidence': ['vibration_rms is +172.7% above load-normalized baseline (5.15 vs expecte"
+    },
+    "is_tamper_verified": 1
+  },
+  {
+    "id": "AUD-000010",
+    "sequence_num": 10,
+    "prev_hash": "62a30bd24b24068d84e1c6fb45296458b7b6c1d4fd89f3b332c35754087e5ca1",
+    "current_hash": "ceddadcefa0fc22df221eb790c7118a80eb437cd445208f4f83ac1067555a069",
+    "timestamp": "2026-10-04T18:54:50.333690",
+    "actor_role": "agent",
+    "actor_name": "MaintainCopilot_Specialist",
+    "action_type": "tool_call:get_evidence",
+    "payload": {
+      "args": {
+        "asset_id": "M-204"
+      },
+      "summary": "['Winding Temp: +21.3% vs baseline (78.87 vs expected 65.03, z=+16.5\u03c3)', 'Vibration Rms: +172.7% vs baseline (5.15 vs expected 1.89, z=+38.5\u03c3)', 'Prognostic RUL: 45.0-90.0 operating days (p50=60.0d, c"
+    },
+    "is_tamper_verified": 1
+  },
+  {
+    "id": "AUD-000011",
+    "sequence_num": 11,
+    "prev_hash": "ceddadcefa0fc22df221eb790c7118a80eb437cd445208f4f83ac1067555a069",
+    "current_hash": "798bd3701222010710e7eb95d3e2f20b04d5a07947210a7f74827f46dd93c3d1",
+    "timestamp": "2026-10-04T18:54:50.343079",
+    "actor_role": "agent",
+    "actor_name": "MaintainCopilot_Specialist",
+    "action_type": "tool_call:estimate_rul",
+    "payload": {
+      "args": {
+        "asset_id": "M-204"
+      },
+      "summary": "{'asset_id': 'M-204', 'primary_sensor': 'vibration_rms', 'p10_days': 45.0, 'p50_days': 60.0, 'p90_days': 90.0, 'confidence_label': 'MEDIUM', 'confidence_score': 0.65, 'critical_threshold': 4.55, 'curr"
+    },
+    "is_tamper_verified": 1
+  },
+  {
+    "id": "AUD-000012",
+    "sequence_num": 12,
+    "prev_hash": "798bd3701222010710e7eb95d3e2f20b04d5a07947210a7f74827f46dd93c3d1",
+    "current_hash": "9db6d185108f04c3eb1198fe9b203f1bf914ba670888793e07eed8f16970cf92",
+    "timestamp": "2026-10-04T18:54:50.346962",
+    "actor_role": "agent",
+    "actor_name": "MaintainCopilot_Specialist",
+    "action_type": "tool_call:search_knowledge",
+    "payload": {
+      "args": {
+        "asset_type": "conveyor_motor",
+        "query": "bearing_wear inspection replacement protocol"
+      },
+      "summary": "[{'doc_id': 'SOP-MTR-04_bearing_replacement_0', 'source': 'SOP-MTR-04_bearing_replacement.md', 'asset_type': 'conveyor_motor', 'category': 'SOP', 'title': 'SOP-MTR-04: Conveyor Motor Drive Bearing Rep"
+    },
+    "is_tamper_verified": 1
+  },
+  {
+    "id": "AUD-000013",
+    "sequence_num": 13,
+    "prev_hash": "9db6d185108f04c3eb1198fe9b203f1bf914ba670888793e07eed8f16970cf92",
+    "current_hash": "af5943ffc4be26eb8b7e66f89291c705f7a3452b1ff700f405403ed04fa3808e",
+    "timestamp": "2026-10-04T18:54:50.364812",
+    "actor_role": "agent",
+    "actor_name": "MaintainCopilot_Specialist",
+    "action_type": "tool_call:get_repair_windows",
+    "payload": {
+      "args": {
+        "asset_id": "M-204",
+        "duration_hours": 3.5
+      },
+      "summary": "{'asset_id': 'M-204', 'recommended_window': {'rank': 1, 'window_id': 'WIN-2026-10-10-WK', 'start': '2026-10-10T08:00:00', 'end': '2026-10-10T16:00:00', 'duration_hours': 8.0, 'type': 'OFF_PEAK', 'cost"
+    },
+    "is_tamper_verified": 1
+  },
+  {
+    "id": "AUD-000014",
+    "sequence_num": 14,
+    "prev_hash": "af5943ffc4be26eb8b7e66f89291c705f7a3452b1ff700f405403ed04fa3808e",
+    "current_hash": "23a08b941f3f6175e0189c974a88bc24e6d0a0460d62d6bac6f59313167d7860",
+    "timestamp": "2026-10-04T18:54:50.423998",
+    "actor_role": "agent",
+    "actor_name": "MaintainCopilot_Specialist",
+    "action_type": "tool_call:get_impact",
+    "payload": {
+      "args": {
+        "asset_id": "M-204",
+        "duration_hours": 3.5
+      },
+      "summary": "{'planned_repair_cost': 13295.0, 'catastrophic_failure_cost': 49500.0, 'cost_savings': 36205.0, 'planned_downtime_hours': 3.5, 'catastrophic_downtime_hours': 12.2, 'downtime_rate': 3500.0}"
+    },
+    "is_tamper_verified": 1
+  },
+  {
+    "id": "AUD-000015",
+    "sequence_num": 15,
+    "prev_hash": "23a08b941f3f6175e0189c974a88bc24e6d0a0460d62d6bac6f59313167d7860",
+    "current_hash": "850a58e8b6c448d2cb14aaf416c2dc6524d15c905e0fe768b4cd35a0df8a9c7f",
+    "timestamp": "2026-10-04T19:03:10.471098",
+    "actor_role": "agent",
+    "actor_name": "MaintainCopilot_Specialist",
+    "action_type": "tool_call:get_health",
+    "payload": {
+      "args": {
+        "asset_id": "M-204"
+      },
+      "summary": "{'asset_id': 'M-204', 'asset_type': 'conveyor_motor', 'health_score': 5.0, 'risk_level': 'CRITICAL', 'anomaly_score': 1.0, 'is_anomaly': True, 'top_signal_contributions': {'belt_speed': 0.0, 'winding_"
+    },
+    "is_tamper_verified": 1
+  },
+  {
+    "id": "AUD-000016",
+    "sequence_num": 16,
+    "prev_hash": "850a58e8b6c448d2cb14aaf416c2dc6524d15c905e0fe768b4cd35a0df8a9c7f",
+    "current_hash": "be5a5a531f193ab3a9b507e9b8011998b245c787cf8b9e7dcc003e788f8f8305",
+    "timestamp": "2026-10-04T19:03:10.489684",
+    "actor_role": "agent",
+    "actor_name": "MaintainCopilot_Specialist",
+    "action_type": "tool_call:rank_fault_hypotheses",
+    "payload": {
+      "args": {
+        "asset_id": "M-204"
+      },
+      "summary": "[{'failure_mode': 'bearing_wear', 'probability': 0.95, 'severity': 'CRITICAL', 'primary_sensor': 'vibration_rms', 'evidence': ['vibration_rms is +172.7% above load-normalized baseline (5.15 vs expecte"
+    },
+    "is_tamper_verified": 1
+  },
+  {
+    "id": "AUD-000017",
+    "sequence_num": 17,
+    "prev_hash": "be5a5a531f193ab3a9b507e9b8011998b245c787cf8b9e7dcc003e788f8f8305",
+    "current_hash": "9d3f5537961ea2b30f0ab40a287f53335102cd649a0bb9ef769ff555f7ea9db1",
+    "timestamp": "2026-10-04T19:03:10.513132",
+    "actor_role": "agent",
+    "actor_name": "MaintainCopilot_Specialist",
+    "action_type": "tool_call:get_evidence",
+    "payload": {
+      "args": {
+        "asset_id": "M-204"
+      },
+      "summary": "['Winding Temp: +21.3% vs baseline (78.87 vs expected 65.03, z=+16.5\u03c3)', 'Vibration Rms: +172.7% vs baseline (5.15 vs expected 1.89, z=+38.5\u03c3)', 'Prognostic RUL: 45.0-90.0 operating days (p50=60.0d, c"
+    },
+    "is_tamper_verified": 1
+  },
+  {
+    "id": "AUD-000018",
+    "sequence_num": 18,
+    "prev_hash": "9d3f5537961ea2b30f0ab40a287f53335102cd649a0bb9ef769ff555f7ea9db1",
+    "current_hash": "02b8ebf05b568bf547957f5ad225ebc5ff069a53cef388273822168de2171e5a",
+    "timestamp": "2026-10-04T19:03:10.520585",
+    "actor_role": "agent",
+    "actor_name": "MaintainCopilot_Specialist",
+    "action_type": "tool_call:estimate_rul",
+    "payload": {
+      "args": {
+        "asset_id": "M-204"
+      },
+      "summary": "{'asset_id': 'M-204', 'primary_sensor': 'vibration_rms', 'p10_days': 45.0, 'p50_days': 60.0, 'p90_days': 90.0, 'confidence_label': 'MEDIUM', 'confidence_score': 0.65, 'critical_threshold': 4.55, 'curr"
+    },
+    "is_tamper_verified": 1
+  },
+  {
+    "id": "AUD-000019",
+    "sequence_num": 19,
+    "prev_hash": "02b8ebf05b568bf547957f5ad225ebc5ff069a53cef388273822168de2171e5a",
+    "current_hash": "f45807b3a5af881c83ce8fcda072fd2e7a3d2734806f51e7c279dcc08c4b36cf",
+    "timestamp": "2026-10-04T19:03:10.523312",
+    "actor_role": "agent",
+    "actor_name": "MaintainCopilot_Specialist",
+    "action_type": "tool_call:search_knowledge",
+    "payload": {
+      "args": {
+        "asset_type": "conveyor_motor",
+        "query": "bearing_wear inspection replacement protocol"
+      },
+      "summary": "[{'doc_id': 'SOP-MTR-04_bearing_replacement_0', 'source': 'SOP-MTR-04_bearing_replacement.md', 'asset_type': 'conveyor_motor', 'category': 'SOP', 'title': 'SOP-MTR-04: Conveyor Motor Drive Bearing Rep"
+    },
+    "is_tamper_verified": 1
+  },
+  {
+    "id": "AUD-000020",
+    "sequence_num": 20,
+    "prev_hash": "f45807b3a5af881c83ce8fcda072fd2e7a3d2734806f51e7c279dcc08c4b36cf",
+    "current_hash": "9f3e4fa3e52a23647f24deb1b753cd2f29eb6bb4df0ed5447fdf35b27a2c8889",
+    "timestamp": "2026-10-04T19:03:10.535854",
+    "actor_role": "agent",
+    "actor_name": "MaintainCopilot_Specialist",
+    "action_type": "tool_call:get_repair_windows",
+    "payload": {
+      "args": {
+        "asset_id": "M-204",
+        "duration_hours": 3.5
+      },
+      "summary": "{'asset_id': 'M-204', 'recommended_window': {'rank': 1, 'window_id': 'WIN-2026-10-10-WK', 'start': '2026-10-10T08:00:00', 'end': '2026-10-10T16:00:00', 'duration_hours': 8.0, 'type': 'OFF_PEAK', 'cost"
+    },
+    "is_tamper_verified": 1
+  },
+  {
+    "id": "AUD-000021",
+    "sequence_num": 21,
+    "prev_hash": "9f3e4fa3e52a23647f24deb1b753cd2f29eb6bb4df0ed5447fdf35b27a2c8889",
+    "current_hash": "773e27f003eb21995c558152ce6dffecaad56b15109ca019eed79d6b90819c3e",
+    "timestamp": "2026-10-04T19:03:10.538649",
+    "actor_role": "agent",
+    "actor_name": "MaintainCopilot_Specialist",
+    "action_type": "tool_call:get_impact",
+    "payload": {
+      "args": {
+        "asset_id": "M-204",
+        "duration_hours": 3.5
+      },
+      "summary": "{'planned_repair_cost': 13295.0, 'catastrophic_failure_cost': 49500.0, 'cost_savings': 36205.0, 'planned_downtime_hours': 3.5, 'catastrophic_downtime_hours': 12.2, 'downtime_rate': 3500.0}"
+    },
+    "is_tamper_verified": 1
+  },
+  {
+    "id": "AUD-000022",
+    "sequence_num": 22,
+    "prev_hash": "773e27f003eb21995c558152ce6dffecaad56b15109ca019eed79d6b90819c3e",
+    "current_hash": "d1f65a5f921a01a940e5e572e41c094dacfbad3120f8bea27adbd66a95bb0c9e",
+    "timestamp": "2026-10-04T19:03:10.559556",
+    "actor_role": "agent",
+    "actor_name": "MaintainCopilot_Specialist",
+    "action_type": "tool_call:get_health",
+    "payload": {
+      "args": {
+        "asset_id": "M-204"
+      },
+      "summary": "{'asset_id': 'M-204', 'asset_type': 'conveyor_motor', 'health_score': 5.0, 'risk_level': 'CRITICAL', 'anomaly_score': 1.0, 'is_anomaly': True, 'top_signal_contributions': {'belt_speed': 0.0, 'winding_"
+    },
+    "is_tamper_verified": 1
+  },
+  {
+    "id": "AUD-000023",
+    "sequence_num": 23,
+    "prev_hash": "d1f65a5f921a01a940e5e572e41c094dacfbad3120f8bea27adbd66a95bb0c9e",
+    "current_hash": "6165a46db0edbc9be567f2f02dc9483ba0800b67034c43c0031ce0e68b4f9992",
+    "timestamp": "2026-10-04T19:03:10.580110",
+    "actor_role": "agent",
+    "actor_name": "MaintainCopilot_Specialist",
+    "action_type": "tool_call:rank_fault_hypotheses",
+    "payload": {
+      "args": {
+        "asset_id": "M-204"
+      },
+      "summary": "[{'failure_mode': 'bearing_wear', 'probability': 0.95, 'severity': 'CRITICAL', 'primary_sensor': 'vibration_rms', 'evidence': ['vibration_rms is +172.7% above load-normalized baseline (5.15 vs expecte"
+    },
+    "is_tamper_verified": 1
+  },
+  {
+    "id": "AUD-000024",
+    "sequence_num": 24,
+    "prev_hash": "6165a46db0edbc9be567f2f02dc9483ba0800b67034c43c0031ce0e68b4f9992",
+    "current_hash": "c122981f7a6f7e2cada129802431c58ccf419709b58876e728827be2535dc442",
+    "timestamp": "2026-10-04T19:03:10.605799",
+    "actor_role": "agent",
+    "actor_name": "MaintainCopilot_Specialist",
+    "action_type": "tool_call:get_evidence",
+    "payload": {
+      "args": {
+        "asset_id": "M-204"
+      },
+      "summary": "['Winding Temp: +21.3% vs baseline (78.87 vs expected 65.03, z=+16.5\u03c3)', 'Vibration Rms: +172.7% vs baseline (5.15 vs expected 1.89, z=+38.5\u03c3)', 'Prognostic RUL: 45.0-90.0 operating days (p50=60.0d, c"
+    },
+    "is_tamper_verified": 1
+  },
+  {
+    "id": "AUD-000025",
+    "sequence_num": 25,
+    "prev_hash": "c122981f7a6f7e2cada129802431c58ccf419709b58876e728827be2535dc442",
+    "current_hash": "202b51fe02cbce71f83d3a37a1260fce3dccb7ffed386c23ff78b16ae208be7a",
+    "timestamp": "2026-10-04T19:03:10.613552",
+    "actor_role": "agent",
+    "actor_name": "MaintainCopilot_Specialist",
+    "action_type": "tool_call:estimate_rul",
+    "payload": {
+      "args": {
+        "asset_id": "M-204"
+      },
+      "summary": "{'asset_id': 'M-204', 'primary_sensor': 'vibration_rms', 'p10_days': 45.0, 'p50_days': 60.0, 'p90_days': 90.0, 'confidence_label': 'MEDIUM', 'confidence_score': 0.65, 'critical_threshold': 4.55, 'curr"
+    },
+    "is_tamper_verified": 1
+  },
+  {
+    "id": "AUD-000026",
+    "sequence_num": 26,
+    "prev_hash": "202b51fe02cbce71f83d3a37a1260fce3dccb7ffed386c23ff78b16ae208be7a",
+    "current_hash": "4b3b90649fcd74c82c42f89acda04a291418823a57a7e733fc971f30ff9be68f",
+    "timestamp": "2026-10-04T19:03:10.616638",
+    "actor_role": "agent",
+    "actor_name": "MaintainCopilot_Specialist",
+    "action_type": "tool_call:search_knowledge",
+    "payload": {
+      "args": {
+        "asset_type": "conveyor_motor",
+        "query": "bearing_wear inspection replacement protocol"
+      },
+      "summary": "[{'doc_id': 'SOP-MTR-04_bearing_replacement_0', 'source': 'SOP-MTR-04_bearing_replacement.md', 'asset_type': 'conveyor_motor', 'category': 'SOP', 'title': 'SOP-MTR-04: Conveyor Motor Drive Bearing Rep"
+    },
+    "is_tamper_verified": 1
+  },
+  {
+    "id": "AUD-000027",
+    "sequence_num": 27,
+    "prev_hash": "4b3b90649fcd74c82c42f89acda04a291418823a57a7e733fc971f30ff9be68f",
+    "current_hash": "9b423e72b07bb50a8138257a2d1fa3d987cdb7dbf197e4454232d01330546e1c",
+    "timestamp": "2026-10-04T19:03:10.630284",
+    "actor_role": "agent",
+    "actor_name": "MaintainCopilot_Specialist",
+    "action_type": "tool_call:get_repair_windows",
+    "payload": {
+      "args": {
+        "asset_id": "M-204",
+        "duration_hours": 3.5
+      },
+      "summary": "{'asset_id': 'M-204', 'recommended_window': {'rank': 1, 'window_id': 'WIN-2026-10-10-WK', 'start': '2026-10-10T08:00:00', 'end': '2026-10-10T16:00:00', 'duration_hours': 8.0, 'type': 'OFF_PEAK', 'cost"
+    },
+    "is_tamper_verified": 1
+  },
+  {
+    "id": "AUD-000028",
+    "sequence_num": 28,
+    "prev_hash": "9b423e72b07bb50a8138257a2d1fa3d987cdb7dbf197e4454232d01330546e1c",
+    "current_hash": "bb88dbc432cf6a51a384339120ba5a52f70f0b8281abc5f86414c69dc32b53e7",
+    "timestamp": "2026-10-04T19:03:10.633485",
+    "actor_role": "agent",
+    "actor_name": "MaintainCopilot_Specialist",
+    "action_type": "tool_call:get_impact",
+    "payload": {
+      "args": {
+        "asset_id": "M-204",
+        "duration_hours": 3.5
+      },
+      "summary": "{'planned_repair_cost': 13295.0, 'catastrophic_failure_cost': 49500.0, 'cost_savings': 36205.0, 'planned_downtime_hours': 3.5, 'catastrophic_downtime_hours': 12.2, 'downtime_rate': 3500.0}"
+    },
+    "is_tamper_verified": 1
+  },
+  {
+    "id": "AUD-000029",
+    "sequence_num": 29,
+    "prev_hash": "bb88dbc432cf6a51a384339120ba5a52f70f0b8281abc5f86414c69dc32b53e7",
+    "current_hash": "90500bff869a6f16bc838e4ed1aad567d5d434f8cb8f0d5f258de471af24f31c",
+    "timestamp": "2026-10-04T19:03:10.654955",
+    "actor_role": "agent",
+    "actor_name": "MaintainCopilot_Specialist",
+    "action_type": "tool_call:get_health",
+    "payload": {
+      "args": {
+        "asset_id": "M-204"
+      },
+      "summary": "{'asset_id': 'M-204', 'asset_type': 'conveyor_motor', 'health_score': 5.0, 'risk_level': 'CRITICAL', 'anomaly_score': 1.0, 'is_anomaly': True, 'top_signal_contributions': {'belt_speed': 0.0, 'winding_"
+    },
+    "is_tamper_verified": 1
+  },
+  {
+    "id": "AUD-000030",
+    "sequence_num": 30,
+    "prev_hash": "90500bff869a6f16bc838e4ed1aad567d5d434f8cb8f0d5f258de471af24f31c",
+    "current_hash": "87c468e391a7fb8ec4961e1b067cc9af24bccb40c6f677f6e63deeec23628337",
+    "timestamp": "2026-10-04T19:03:10.675866",
+    "actor_role": "agent",
+    "actor_name": "MaintainCopilot_Specialist",
+    "action_type": "tool_call:rank_fault_hypotheses",
+    "payload": {
+      "args": {
+        "asset_id": "M-204"
+      },
+      "summary": "[{'failure_mode': 'bearing_wear', 'probability': 0.95, 'severity': 'CRITICAL', 'primary_sensor': 'vibration_rms', 'evidence': ['vibration_rms is +172.7% above load-normalized baseline (5.15 vs expecte"
+    },
+    "is_tamper_verified": 1
+  },
+  {
+    "id": "AUD-000031",
+    "sequence_num": 31,
+    "prev_hash": "87c468e391a7fb8ec4961e1b067cc9af24bccb40c6f677f6e63deeec23628337",
+    "current_hash": "715502eda4b52ec02fa6634c9f830649186136e8f40791b7fee6080c8597a159",
+    "timestamp": "2026-10-04T19:03:10.701652",
+    "actor_role": "agent",
+    "actor_name": "MaintainCopilot_Specialist",
+    "action_type": "tool_call:get_evidence",
+    "payload": {
+      "args": {
+        "asset_id": "M-204"
+      },
+      "summary": "['Winding Temp: +21.3% vs baseline (78.87 vs expected 65.03, z=+16.5\u03c3)', 'Vibration Rms: +172.7% vs baseline (5.15 vs expected 1.89, z=+38.5\u03c3)', 'Prognostic RUL: 45.0-90.0 operating days (p50=60.0d, c"
+    },
+    "is_tamper_verified": 1
+  },
+  {
+    "id": "AUD-000032",
+    "sequence_num": 32,
+    "prev_hash": "715502eda4b52ec02fa6634c9f830649186136e8f40791b7fee6080c8597a159",
+    "current_hash": "830faadbe1ceecd0540b69b6d6dd411e25f60714f5c9e0f5691a8fbcd439b2f2",
+    "timestamp": "2026-10-04T19:03:10.718242",
+    "actor_role": "agent",
+    "actor_name": "MaintainCopilot_Specialist",
+    "action_type": "tool_call:estimate_rul",
+    "payload": {
+      "args": {
+        "asset_id": "M-204"
+      },
+      "summary": "{'asset_id': 'M-204', 'primary_sensor': 'vibration_rms', 'p10_days': 45.0, 'p50_days': 60.0, 'p90_days': 90.0, 'confidence_label': 'MEDIUM', 'confidence_score': 0.65, 'critical_threshold': 4.55, 'curr"
+    },
+    "is_tamper_verified": 1
+  },
+  {
+    "id": "AUD-000033",
+    "sequence_num": 33,
+    "prev_hash": "830faadbe1ceecd0540b69b6d6dd411e25f60714f5c9e0f5691a8fbcd439b2f2",
+    "current_hash": "ff58ca4c39232fb7728e2e748cc6a830e9abd3bda02e567321a79beb6c469b1c",
+    "timestamp": "2026-10-04T19:03:10.722161",
+    "actor_role": "agent",
+    "actor_name": "MaintainCopilot_Specialist",
+    "action_type": "tool_call:search_knowledge",
+    "payload": {
+      "args": {
+        "asset_type": "conveyor_motor",
+        "query": "bearing_wear inspection replacement protocol"
+      },
+      "summary": "[{'doc_id': 'SOP-MTR-04_bearing_replacement_0', 'source': 'SOP-MTR-04_bearing_replacement.md', 'asset_type': 'conveyor_motor', 'category': 'SOP', 'title': 'SOP-MTR-04: Conveyor Motor Drive Bearing Rep"
+    },
+    "is_tamper_verified": 1
+  },
+  {
+    "id": "AUD-000034",
+    "sequence_num": 34,
+    "prev_hash": "ff58ca4c39232fb7728e2e748cc6a830e9abd3bda02e567321a79beb6c469b1c",
+    "current_hash": "60d1d01dfba084e7124e9ebc4748de068bc43bd688ce396683b974873e31d083",
+    "timestamp": "2026-10-04T19:03:10.737189",
+    "actor_role": "agent",
+    "actor_name": "MaintainCopilot_Specialist",
+    "action_type": "tool_call:get_repair_windows",
+    "payload": {
+      "args": {
+        "asset_id": "M-204",
+        "duration_hours": 3.5
+      },
+      "summary": "{'asset_id': 'M-204', 'recommended_window': {'rank': 1, 'window_id': 'WIN-2026-10-10-WK', 'start': '2026-10-10T08:00:00', 'end': '2026-10-10T16:00:00', 'duration_hours': 8.0, 'type': 'OFF_PEAK', 'cost"
+    },
+    "is_tamper_verified": 1
+  },
+  {
+    "id": "AUD-000035",
+    "sequence_num": 35,
+    "prev_hash": "60d1d01dfba084e7124e9ebc4748de068bc43bd688ce396683b974873e31d083",
+    "current_hash": "7af9b293762fc61e139ec78bf916f6a8a2525e91e834b8c50486865698bd9eef",
+    "timestamp": "2026-10-04T19:03:10.740816",
+    "actor_role": "agent",
+    "actor_name": "MaintainCopilot_Specialist",
+    "action_type": "tool_call:get_impact",
+    "payload": {
+      "args": {
+        "asset_id": "M-204",
+        "duration_hours": 3.5
+      },
+      "summary": "{'planned_repair_cost': 13295.0, 'catastrophic_failure_cost': 49500.0, 'cost_savings': 36205.0, 'planned_downtime_hours': 3.5, 'catastrophic_downtime_hours': 12.2, 'downtime_rate': 3500.0}"
+    },
+    "is_tamper_verified": 1
+  },
+  {
+    "id": "AUD-000036",
+    "sequence_num": 36,
+    "prev_hash": "7af9b293762fc61e139ec78bf916f6a8a2525e91e834b8c50486865698bd9eef",
+    "current_hash": "adaeaed30caca2bcc8ee2af3b40302e2a3de44cd09fa81b19cf03aa3408a96f5",
+    "timestamp": "2026-10-04T19:03:10.763030",
+    "actor_role": "agent",
+    "actor_name": "MaintainCopilot_Specialist",
+    "action_type": "tool_call:get_health",
+    "payload": {
+      "args": {
+        "asset_id": "M-204"
+      },
+      "summary": "{'asset_id': 'M-204', 'asset_type': 'conveyor_motor', 'health_score': 5.0, 'risk_level': 'CRITICAL', 'anomaly_score': 1.0, 'is_anomaly': True, 'top_signal_contributions': {'belt_speed': 0.0, 'winding_"
+    },
+    "is_tamper_verified": 1
+  },
+  {
+    "id": "AUD-000037",
+    "sequence_num": 37,
+    "prev_hash": "adaeaed30caca2bcc8ee2af3b40302e2a3de44cd09fa81b19cf03aa3408a96f5",
+    "current_hash": "ecdcaf284af0905f7a4615cdb5b5a103c575d358fea38c48e8fcd7142d59bd38",
+    "timestamp": "2026-10-04T19:03:10.782999",
+    "actor_role": "agent",
+    "actor_name": "MaintainCopilot_Specialist",
+    "action_type": "tool_call:rank_fault_hypotheses",
+    "payload": {
+      "args": {
+        "asset_id": "M-204"
+      },
+      "summary": "[{'failure_mode': 'bearing_wear', 'probability': 0.95, 'severity': 'CRITICAL', 'primary_sensor': 'vibration_rms', 'evidence': ['vibration_rms is +172.7% above load-normalized baseline (5.15 vs expecte"
+    },
+    "is_tamper_verified": 1
+  },
+  {
+    "id": "AUD-000038",
+    "sequence_num": 38,
+    "prev_hash": "ecdcaf284af0905f7a4615cdb5b5a103c575d358fea38c48e8fcd7142d59bd38",
+    "current_hash": "38285720b04ddaecbd9d209f035c942c732d6e1906abb208cf0b8a856025f796",
+    "timestamp": "2026-10-04T19:03:10.807815",
+    "actor_role": "agent",
+    "actor_name": "MaintainCopilot_Specialist",
+    "action_type": "tool_call:get_evidence",
+    "payload": {
+      "args": {
+        "asset_id": "M-204"
+      },
+      "summary": "['Winding Temp: +21.3% vs baseline (78.87 vs expected 65.03, z=+16.5\u03c3)', 'Vibration Rms: +172.7% vs baseline (5.15 vs expected 1.89, z=+38.5\u03c3)', 'Prognostic RUL: 45.0-90.0 operating days (p50=60.0d, c"
+    },
+    "is_tamper_verified": 1
+  },
+  {
+    "id": "AUD-000039",
+    "sequence_num": 39,
+    "prev_hash": "38285720b04ddaecbd9d209f035c942c732d6e1906abb208cf0b8a856025f796",
+    "current_hash": "0563658e5ea7314e2acb1d535a397c316901f43209ea81b891bb3a68a0f13614",
+    "timestamp": "2026-10-04T19:03:10.815975",
+    "actor_role": "agent",
+    "actor_name": "MaintainCopilot_Specialist",
+    "action_type": "tool_call:estimate_rul",
+    "payload": {
+      "args": {
+        "asset_id": "M-204"
+      },
+      "summary": "{'asset_id': 'M-204', 'primary_sensor': 'vibration_rms', 'p10_days': 45.0, 'p50_days': 60.0, 'p90_days': 90.0, 'confidence_label': 'MEDIUM', 'confidence_score': 0.65, 'critical_threshold': 4.55, 'curr"
+    },
+    "is_tamper_verified": 1
+  },
+  {
+    "id": "AUD-000040",
+    "sequence_num": 40,
+    "prev_hash": "0563658e5ea7314e2acb1d535a397c316901f43209ea81b891bb3a68a0f13614",
+    "current_hash": "821cc4ce684e15156f340f78abdddf37899a7a516743dbb81143648f43820348",
+    "timestamp": "2026-10-04T19:03:10.819517",
+    "actor_role": "agent",
+    "actor_name": "MaintainCopilot_Specialist",
+    "action_type": "tool_call:search_knowledge",
+    "payload": {
+      "args": {
+        "asset_type": "conveyor_motor",
+        "query": "bearing_wear inspection replacement protocol"
+      },
+      "summary": "[{'doc_id': 'SOP-MTR-04_bearing_replacement_0', 'source': 'SOP-MTR-04_bearing_replacement.md', 'asset_type': 'conveyor_motor', 'category': 'SOP', 'title': 'SOP-MTR-04: Conveyor Motor Drive Bearing Rep"
+    },
+    "is_tamper_verified": 1
+  },
+  {
+    "id": "AUD-000041",
+    "sequence_num": 41,
+    "prev_hash": "821cc4ce684e15156f340f78abdddf37899a7a516743dbb81143648f43820348",
+    "current_hash": "e4c4639d61a629f46da97faee0ee30ef70d6184634d838092f729d4bff3e1a32",
+    "timestamp": "2026-10-04T19:03:10.833219",
+    "actor_role": "agent",
+    "actor_name": "MaintainCopilot_Specialist",
+    "action_type": "tool_call:get_repair_windows",
+    "payload": {
+      "args": {
+        "asset_id": "M-204",
+        "duration_hours": 3.5
+      },
+      "summary": "{'asset_id': 'M-204', 'recommended_window': {'rank': 1, 'window_id': 'WIN-2026-10-10-WK', 'start': '2026-10-10T08:00:00', 'end': '2026-10-10T16:00:00', 'duration_hours': 8.0, 'type': 'OFF_PEAK', 'cost"
+    },
+    "is_tamper_verified": 1
+  },
+  {
+    "id": "AUD-000042",
+    "sequence_num": 42,
+    "prev_hash": "e4c4639d61a629f46da97faee0ee30ef70d6184634d838092f729d4bff3e1a32",
+    "current_hash": "19588e7383f04073d62250ca4da3e80ead1f4f4a2dc74000c644c3614d6f7919",
+    "timestamp": "2026-10-04T19:03:10.837038",
+    "actor_role": "agent",
+    "actor_name": "MaintainCopilot_Specialist",
+    "action_type": "tool_call:get_impact",
+    "payload": {
+      "args": {
+        "asset_id": "M-204",
+        "duration_hours": 3.5
+      },
+      "summary": "{'planned_repair_cost': 13295.0, 'catastrophic_failure_cost': 49500.0, 'cost_savings': 36205.0, 'planned_downtime_hours': 3.5, 'catastrophic_downtime_hours': 12.2, 'downtime_rate': 3500.0}"
+    },
+    "is_tamper_verified": 1
+  },
+  {
+    "id": "AUD-000043",
+    "sequence_num": 43,
+    "prev_hash": "19588e7383f04073d62250ca4da3e80ead1f4f4a2dc74000c644c3614d6f7919",
+    "current_hash": "12b7aa233fb32a61c22796ba1ac76d6441b8ad2da59f688bda954a82ccac6df7",
+    "timestamp": "2026-10-04T19:03:11.158243",
+    "actor_role": "agent",
+    "actor_name": "MaintainCopilot_GovernanceGuard",
+    "action_type": "forbidden_action_blocked",
+    "payload": {
+      "blocked_action": "shut it down",
+      "query": "Conveyor M-204 vibration is high, please just shut it down immediately!"
+    },
+    "is_tamper_verified": 1
+  },
+  {
+    "id": "AUD-000044",
+    "sequence_num": 44,
+    "prev_hash": "12b7aa233fb32a61c22796ba1ac76d6441b8ad2da59f688bda954a82ccac6df7",
+    "current_hash": "712e68011e26add27af86a9bf9ddc31c85cb096b7a3a8997f92fb0af579c8eff",
+    "timestamp": "2026-10-04T19:03:11.175019",
+    "actor_role": "agent",
+    "actor_name": "MaintainCopilot_Specialist",
+    "action_type": "tool_call:get_health",
+    "payload": {
+      "args": {
+        "asset_id": "M-204"
+      },
+      "summary": "{'asset_id': 'M-204', 'asset_type': 'conveyor_motor', 'health_score': 5.0, 'risk_level': 'CRITICAL', 'anomaly_score': 1.0, 'is_anomaly': True, 'top_signal_contributions': {'belt_speed': 0.0, 'winding_"
+    },
+    "is_tamper_verified": 1
+  },
+  {
+    "id": "AUD-000045",
+    "sequence_num": 45,
+    "prev_hash": "712e68011e26add27af86a9bf9ddc31c85cb096b7a3a8997f92fb0af579c8eff",
+    "current_hash": "84a78249bfd270f419cfdf0ad80c7c55cb8221b3af99b2126b10c6c4527895f1",
+    "timestamp": "2026-10-04T19:03:11.191034",
+    "actor_role": "agent",
+    "actor_name": "MaintainCopilot_Specialist",
+    "action_type": "tool_call:rank_fault_hypotheses",
+    "payload": {
+      "args": {
+        "asset_id": "M-204"
+      },
+      "summary": "[{'failure_mode': 'bearing_wear', 'probability': 0.95, 'severity': 'CRITICAL', 'primary_sensor': 'vibration_rms', 'evidence': ['vibration_rms is +172.7% above load-normalized baseline (5.15 vs expecte"
+    },
+    "is_tamper_verified": 1
+  },
+  {
+    "id": "AUD-000046",
+    "sequence_num": 46,
+    "prev_hash": "84a78249bfd270f419cfdf0ad80c7c55cb8221b3af99b2126b10c6c4527895f1",
+    "current_hash": "765dd97e4fc153e5345f3cb6d4f928b80f012b7e22aa54bd66a98b2675726ac5",
+    "timestamp": "2026-10-04T19:03:11.210656",
+    "actor_role": "agent",
+    "actor_name": "MaintainCopilot_Specialist",
+    "action_type": "tool_call:get_evidence",
+    "payload": {
+      "args": {
+        "asset_id": "M-204"
+      },
+      "summary": "['Winding Temp: +21.3% vs baseline (78.87 vs expected 65.03, z=+16.5\u03c3)', 'Vibration Rms: +172.7% vs baseline (5.15 vs expected 1.89, z=+38.5\u03c3)', 'Prognostic RUL: 45.0-90.0 operating days (p50=60.0d, c"
+    },
+    "is_tamper_verified": 1
+  },
+  {
+    "id": "AUD-000047",
+    "sequence_num": 47,
+    "prev_hash": "765dd97e4fc153e5345f3cb6d4f928b80f012b7e22aa54bd66a98b2675726ac5",
+    "current_hash": "0ec53f33919d7abb37985e99a4ea6065a60b677e57111706ad68f6c06ada992f",
+    "timestamp": "2026-10-04T19:03:11.217078",
+    "actor_role": "agent",
+    "actor_name": "MaintainCopilot_Specialist",
+    "action_type": "tool_call:estimate_rul",
+    "payload": {
+      "args": {
+        "asset_id": "M-204"
+      },
+      "summary": "{'asset_id': 'M-204', 'primary_sensor': 'vibration_rms', 'p10_days': 45.0, 'p50_days': 60.0, 'p90_days': 90.0, 'confidence_label': 'MEDIUM', 'confidence_score': 0.65, 'critical_threshold': 4.55, 'curr"
+    },
+    "is_tamper_verified": 1
+  },
+  {
+    "id": "AUD-000048",
+    "sequence_num": 48,
+    "prev_hash": "0ec53f33919d7abb37985e99a4ea6065a60b677e57111706ad68f6c06ada992f",
+    "current_hash": "19f02413fdc893eb1ed59f56436a7e03b515dabc00b787590843f63ad285e307",
+    "timestamp": "2026-10-04T19:03:11.220581",
+    "actor_role": "agent",
+    "actor_name": "MaintainCopilot_Specialist",
+    "action_type": "tool_call:search_knowledge",
+    "payload": {
+      "args": {
+        "asset_type": "conveyor_motor",
+        "query": "bearing_wear inspection replacement protocol"
+      },
+      "summary": "[{'doc_id': 'SOP-MTR-04_bearing_replacement_0', 'source': 'SOP-MTR-04_bearing_replacement.md', 'asset_type': 'conveyor_motor', 'category': 'SOP', 'title': 'SOP-MTR-04: Conveyor Motor Drive Bearing Rep"
+    },
+    "is_tamper_verified": 1
+  },
+  {
+    "id": "AUD-000049",
+    "sequence_num": 49,
+    "prev_hash": "19f02413fdc893eb1ed59f56436a7e03b515dabc00b787590843f63ad285e307",
+    "current_hash": "0fa3298e233499e21fa10d039facc7f7e68cd17de04d43f8febcd2f79edb81f5",
+    "timestamp": "2026-10-04T19:03:11.231222",
+    "actor_role": "agent",
+    "actor_name": "MaintainCopilot_Specialist",
+    "action_type": "tool_call:get_repair_windows",
+    "payload": {
+      "args": {
+        "asset_id": "M-204",
+        "duration_hours": 3.5
+      },
+      "summary": "{'asset_id': 'M-204', 'recommended_window': {'rank': 1, 'window_id': 'WIN-2026-10-10-WK', 'start': '2026-10-10T08:00:00', 'end': '2026-10-10T16:00:00', 'duration_hours': 8.0, 'type': 'OFF_PEAK', 'cost"
+    },
+    "is_tamper_verified": 1
+  },
+  {
+    "id": "AUD-000050",
+    "sequence_num": 50,
+    "prev_hash": "0fa3298e233499e21fa10d039facc7f7e68cd17de04d43f8febcd2f79edb81f5",
+    "current_hash": "a51c8345cad2a392d07efa0c481e70c7cd0bc4cda68088f9185acfbb4afc9459",
+    "timestamp": "2026-10-04T19:03:11.234636",
+    "actor_role": "agent",
+    "actor_name": "MaintainCopilot_Specialist",
+    "action_type": "tool_call:get_impact",
+    "payload": {
+      "args": {
+        "asset_id": "M-204",
+        "duration_hours": 3.5
+      },
+      "summary": "{'planned_repair_cost': 13295.0, 'catastrophic_failure_cost': 49500.0, 'cost_savings': 36205.0, 'planned_downtime_hours': 3.5, 'catastrophic_downtime_hours': 12.2, 'downtime_rate': 3500.0}"
+    },
+    "is_tamper_verified": 1
+  },
+  {
+    "id": "AUD-000051",
+    "sequence_num": 51,
+    "prev_hash": "a51c8345cad2a392d07efa0c481e70c7cd0bc4cda68088f9185acfbb4afc9459",
+    "current_hash": "221d9236e54af944c410dbf44877d484cd3b4a44498077b0a6982c014795347d",
+    "timestamp": "2026-10-04T19:03:11.252250",
+    "actor_role": "agent",
+    "actor_name": "MaintainCopilot_Specialist",
+    "action_type": "tool_call:get_health",
+    "payload": {
+      "args": {
+        "asset_id": "P-102"
+      },
+      "summary": "{'asset_id': 'P-102', 'asset_type': 'centrifugal_pump', 'health_score': 5.0, 'risk_level': 'CRITICAL', 'anomaly_score': 1.0, 'is_anomaly': True, 'top_signal_contributions': {'impeller_speed': 0.0, 'ca"
+    },
+    "is_tamper_verified": 1
+  },
+  {
+    "id": "AUD-000052",
+    "sequence_num": 52,
+    "prev_hash": "221d9236e54af944c410dbf44877d484cd3b4a44498077b0a6982c014795347d",
+    "current_hash": "897c18347b9327ab8200dc4a8b9b673901ea9ea7c58f5955b62acd747fe56bfb",
+    "timestamp": "2026-10-04T19:03:11.269186",
+    "actor_role": "agent",
+    "actor_name": "MaintainCopilot_Specialist",
+    "action_type": "tool_call:rank_fault_hypotheses",
+    "payload": {
+      "args": {
+        "asset_id": "P-102"
+      },
+      "summary": "[{'failure_mode': 'cavitation', 'probability': 0.95, 'severity': 'CRITICAL', 'primary_sensor': 'casing_vibration', 'evidence': ['casing_vibration is +344.8% above load-normalized baseline (7.09 vs exp"
+    },
+    "is_tamper_verified": 1
+  },
+  {
+    "id": "AUD-000053",
+    "sequence_num": 53,
+    "prev_hash": "897c18347b9327ab8200dc4a8b9b673901ea9ea7c58f5955b62acd747fe56bfb",
+    "current_hash": "a1b3a4ed5d17f0253441f04124d22a395bd035d6a00c4982536a3f1262cebceb",
+    "timestamp": "2026-10-04T19:03:11.290338",
+    "actor_role": "agent",
+    "actor_name": "MaintainCopilot_Specialist",
+    "action_type": "tool_call:get_evidence",
+    "payload": {
+      "args": {
+        "asset_id": "P-102"
+      },
+      "summary": "['Casing Vibration: +344.8% vs baseline (7.09 vs expected 1.59, z=+142.8\u03c3)', 'Discharge Pressure: -22.8% vs baseline (9.77 vs expected 12.65, z=-37.3\u03c3)', 'Suction Pressure: -81.5% vs baseline (0.45 vs"
+    },
+    "is_tamper_verified": 1
+  },
+  {
+    "id": "AUD-000054",
+    "sequence_num": 54,
+    "prev_hash": "a1b3a4ed5d17f0253441f04124d22a395bd035d6a00c4982536a3f1262cebceb",
+    "current_hash": "38b17347ff4cb128c55fcd0009a4526ed589fea02358ebd0c97dfa034cb4940e",
+    "timestamp": "2026-10-04T19:03:11.297197",
+    "actor_role": "agent",
+    "actor_name": "MaintainCopilot_Specialist",
+    "action_type": "tool_call:estimate_rul",
+    "payload": {
+      "args": {
+        "asset_id": "P-102"
+      },
+      "summary": "{'asset_id': 'P-102', 'primary_sensor': 'casing_vibration', 'p10_days': 558.3, 'p50_days': 1062.7, 'p90_days': 1718.5, 'confidence_label': 'MEDIUM', 'confidence_score': 0.65, 'critical_threshold': 4.1"
+    },
+    "is_tamper_verified": 1
+  },
+  {
+    "id": "AUD-000055",
+    "sequence_num": 55,
+    "prev_hash": "38b17347ff4cb128c55fcd0009a4526ed589fea02358ebd0c97dfa034cb4940e",
+    "current_hash": "b5a17f04ab3d2b91e22a1081defd4842e89006c782e0212f1c8b5dc1c98f8099",
+    "timestamp": "2026-10-04T19:03:11.300908",
+    "actor_role": "agent",
+    "actor_name": "MaintainCopilot_Specialist",
+    "action_type": "tool_call:search_knowledge",
+    "payload": {
+      "args": {
+        "asset_type": "centrifugal_pump",
+        "query": "cavitation inspection replacement protocol"
+      },
+      "summary": "[{'doc_id': 'SOP-PMP-12_pump_cavitation_0', 'source': 'SOP-PMP-12_pump_cavitation.md', 'asset_type': 'centrifugal_pump', 'category': 'SOP', 'title': 'SOP-PMP-12: Centrifugal Pump Cavitation Mitigation"
+    },
+    "is_tamper_verified": 1
+  },
+  {
+    "id": "AUD-000056",
+    "sequence_num": 56,
+    "prev_hash": "b5a17f04ab3d2b91e22a1081defd4842e89006c782e0212f1c8b5dc1c98f8099",
+    "current_hash": "e59b51682907b30fef7825a33bc44821efb8e5a1409bab7ca4d95a0b20a97437",
+    "timestamp": "2026-10-04T19:03:11.310497",
+    "actor_role": "agent",
+    "actor_name": "MaintainCopilot_Specialist",
+    "action_type": "tool_call:get_repair_windows",
+    "payload": {
+      "args": {
+        "asset_id": "P-102",
+        "duration_hours": 3.5
+      },
+      "summary": "{'asset_id': 'P-102', 'recommended_window': {'rank': 1, 'window_id': 'WIN-2026-10-11-CH', 'start': '2026-10-11T10:00:00', 'end': '2026-10-11T18:00:00', 'duration_hours': 8.0, 'type': 'OFF_PEAK', 'cost"
+    },
+    "is_tamper_verified": 1
+  },
+  {
+    "id": "AUD-000057",
+    "sequence_num": 57,
+    "prev_hash": "e59b51682907b30fef7825a33bc44821efb8e5a1409bab7ca4d95a0b20a97437",
+    "current_hash": "36ab05e5a71355424fb440e1b767416d11e6bc7021e98dcb4461e5c970fafd4f",
+    "timestamp": "2026-10-04T19:03:11.314179",
+    "actor_role": "agent",
+    "actor_name": "MaintainCopilot_Specialist",
+    "action_type": "tool_call:get_impact",
+    "payload": {
+      "args": {
+        "asset_id": "P-102",
+        "duration_hours": 3.5
+      },
+      "summary": "{'planned_repair_cost': 13295.0, 'catastrophic_failure_cost': 49500.0, 'cost_savings': 36205.0, 'planned_downtime_hours': 3.5, 'catastrophic_downtime_hours': 12.2, 'downtime_rate': 3500.0}"
+    },
+    "is_tamper_verified": 1
+  },
+  {
+    "id": "AUD-000058",
+    "sequence_num": 58,
+    "prev_hash": "36ab05e5a71355424fb440e1b767416d11e6bc7021e98dcb4461e5c970fafd4f",
+    "current_hash": "91b731502340c2a5fcbd52753947050208305dcd45b35bc17726a8368591780f",
+    "timestamp": "2026-10-04T19:03:11.332931",
+    "actor_role": "agent",
+    "actor_name": "MaintainCopilot_Specialist",
+    "action_type": "tool_call:get_health",
+    "payload": {
+      "args": {
+        "asset_id": "C-301"
+      },
+      "summary": "{'asset_id': 'C-301', 'asset_type': 'compressor', 'health_score': 5.0, 'risk_level': 'CRITICAL', 'anomaly_score': 1.0, 'is_anomaly': True, 'top_signal_contributions': {'suction_pressure': 0.0, 'vibrat"
+    },
+    "is_tamper_verified": 1
+  },
+  {
+    "id": "AUD-000059",
+    "sequence_num": 59,
+    "prev_hash": "91b731502340c2a5fcbd52753947050208305dcd45b35bc17726a8368591780f",
+    "current_hash": "1df724292fbe9375a6f3961f1416f85c7a74955e35beca4b8ff1931d9d7dd693",
+    "timestamp": "2026-10-04T19:03:11.350722",
+    "actor_role": "agent",
+    "actor_name": "MaintainCopilot_Specialist",
+    "action_type": "tool_call:rank_fault_hypotheses",
+    "payload": {
+      "args": {
+        "asset_id": "C-301"
+      },
+      "summary": "[{'failure_mode': 'bearing_wear', 'probability': 0.95, 'severity': 'CRITICAL', 'primary_sensor': 'vibration_velocity', 'evidence': ['vibration_velocity is +82.7% above load-normalized baseline (4.64 v"
+    },
+    "is_tamper_verified": 1
+  },
+  {
+    "id": "AUD-000060",
+    "sequence_num": 60,
+    "prev_hash": "1df724292fbe9375a6f3961f1416f85c7a74955e35beca4b8ff1931d9d7dd693",
+    "current_hash": "e9a72f784767b727cdecfa53b483c99d095c25be1a3246f40f4c56d734464d1f",
+    "timestamp": "2026-10-04T19:03:11.371641",
+    "actor_role": "agent",
+    "actor_name": "MaintainCopilot_Specialist",
+    "action_type": "tool_call:get_evidence",
+    "payload": {
+      "args": {
+        "asset_id": "C-301"
+      },
+      "summary": "['Vibration Velocity: +82.7% vs baseline (4.64 vs expected 2.54, z=+36.5\u03c3)', 'Oil Pressure: -45.2% vs baseline (2.70 vs expected 4.93, z=-43.0\u03c3)', 'Discharge Temp: +36.6% vs baseline (113.18 vs expect"
+    },
+    "is_tamper_verified": 1
+  },
+  {
+    "id": "AUD-000061",
+    "sequence_num": 61,
+    "prev_hash": "e9a72f784767b727cdecfa53b483c99d095c25be1a3246f40f4c56d734464d1f",
+    "current_hash": "d788055fd2c548e45523f93f2361074f63513f361f445d36512c2f4275f807ed",
+    "timestamp": "2026-10-04T19:03:11.378623",
+    "actor_role": "agent",
+    "actor_name": "MaintainCopilot_Specialist",
+    "action_type": "tool_call:estimate_rul",
+    "payload": {
+      "args": {
+        "asset_id": "C-301"
+      },
+      "summary": "{'asset_id': 'C-301', 'primary_sensor': 'discharge_temp', 'p10_days': 45.0, 'p50_days': 60.0, 'p90_days': 90.0, 'confidence_label': 'MEDIUM', 'confidence_score': 0.55, 'critical_threshold': 124.800000"
+    },
+    "is_tamper_verified": 1
+  },
+  {
+    "id": "AUD-000062",
+    "sequence_num": 62,
+    "prev_hash": "d788055fd2c548e45523f93f2361074f63513f361f445d36512c2f4275f807ed",
+    "current_hash": "90ea6249d1250a77265a4e8394337dc36adf537160fc288c24b1fc6ac766616a",
+    "timestamp": "2026-10-04T19:03:11.382634",
+    "actor_role": "agent",
+    "actor_name": "MaintainCopilot_Specialist",
+    "action_type": "tool_call:search_knowledge",
+    "payload": {
+      "args": {
+        "asset_type": "compressor",
+        "query": "bearing_wear inspection replacement protocol"
+      },
+      "summary": "[{'doc_id': 'SOP-CMP-07_compressor_oil_circuit_0', 'source': 'SOP-CMP-07_compressor_oil_circuit.md', 'asset_type': 'compressor', 'category': 'SOP', 'title': 'SOP-CMP-07: Rotary Screw Compressor Oil Ci"
+    },
+    "is_tamper_verified": 1
+  },
+  {
+    "id": "AUD-000063",
+    "sequence_num": 63,
+    "prev_hash": "90ea6249d1250a77265a4e8394337dc36adf537160fc288c24b1fc6ac766616a",
+    "current_hash": "72f724598a305a25ad44ca8120ade930372ba5d322e75fdc6d0a3290da777a35",
+    "timestamp": "2026-10-04T19:03:11.392525",
+    "actor_role": "agent",
+    "actor_name": "MaintainCopilot_Specialist",
+    "action_type": "tool_call:get_repair_windows",
+    "payload": {
+      "args": {
+        "asset_id": "C-301",
+        "duration_hours": 3.5
+      },
+      "summary": "{'asset_id': 'C-301', 'recommended_window': {'rank': 1, 'window_id': 'WIN-2026-10-09-AIR', 'start': '2026-10-09T10:00:00', 'end': '2026-10-09T16:00:00', 'duration_hours': 6.0, 'type': 'PLANNED_DOWNTIM"
+    },
+    "is_tamper_verified": 1
+  },
+  {
+    "id": "AUD-000064",
+    "sequence_num": 64,
+    "prev_hash": "72f724598a305a25ad44ca8120ade930372ba5d322e75fdc6d0a3290da777a35",
+    "current_hash": "989e5d6aea96fdaf00b31a2a93ceb9a273ac5b9cdf17c4ff2a658387762d0b1c",
+    "timestamp": "2026-10-04T19:03:11.396483",
+    "actor_role": "agent",
+    "actor_name": "MaintainCopilot_Specialist",
+    "action_type": "tool_call:get_impact",
+    "payload": {
+      "args": {
+        "asset_id": "C-301",
+        "duration_hours": 3.5
+      },
+      "summary": "{'planned_repair_cost': 13295.0, 'catastrophic_failure_cost': 49500.0, 'cost_savings': 36205.0, 'planned_downtime_hours': 3.5, 'catastrophic_downtime_hours': 12.2, 'downtime_rate': 3500.0}"
+    },
+    "is_tamper_verified": 1
   }
 ]

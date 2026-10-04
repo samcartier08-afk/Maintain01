@@ -1,18 +1,10 @@
 import React, { useState } from 'react';
 import { WorkOrder, Role } from '../types';
 import { 
-  Wrench, 
   CheckCircle2, 
-  Clock, 
-  AlertTriangle, 
-  XCircle, 
-  FileText, 
-  UserCheck, 
   ChevronRight, 
-  Send,
-  Sliders,
-  ShieldCheck,
-  Check
+  Wrench, 
+  UserCheck 
 } from 'lucide-react';
 
 interface WorkOrdersViewProps {
@@ -89,68 +81,66 @@ export const WorkOrdersView: React.FC<WorkOrdersViewProps> = ({
   const getStatusColor = (status: string) => {
     switch (status) {
       case 'CLOSED':
-        return 'bg-emerald-500/20 text-emerald-300 border-emerald-500/40';
+        return 'text-emerald-400';
       case 'APPROVED':
       case 'WORK_ORDER_CREATED':
-        return 'bg-cyan-500/20 text-cyan-300 border-cyan-500/40';
+        return 'text-cyan-400';
       case 'PENDING_APPROVAL':
-        return 'bg-amber-500/20 text-amber-300 border-amber-500/40';
+        return 'text-amber-400';
       case 'REJECTED':
-        return 'bg-rose-500/20 text-rose-300 border-rose-500/40';
+        return 'text-rose-400';
       default:
-        return 'bg-slate-800 text-slate-300 border-slate-700';
+        return 'text-slate-400';
     }
   };
 
   return (
-    <div className="space-y-6">
-      {/* Top Banner */}
+    <div className="space-y-6 font-mono text-xs">
+      {/* Banner */}
       {successBanner && (
-        <div className="p-4 rounded-xl bg-emerald-950/80 border border-emerald-500/50 flex items-center justify-between text-xs font-mono text-emerald-200">
-          <div className="flex items-center gap-2">
+        <div className="p-3 rounded border border-emerald-500/40 bg-emerald-950/40 text-emerald-300 flex items-center justify-between">
+          <span className="flex items-center gap-2">
             <CheckCircle2 className="w-4 h-4 text-emerald-400" />
-            <span>{successBanner}</span>
-          </div>
+            {successBanner}
+          </span>
           <button onClick={() => setSuccessBanner(null)} className="text-slate-400 hover:text-white">✕</button>
         </div>
       )}
 
-      {/* State Machine Pipeline Banner */}
-      <div className="bg-slate-900/90 border border-slate-800 rounded-xl p-6 shadow-sm space-y-4">
-        <div className="flex items-center justify-between pb-3 border-b border-slate-800">
+      {/* State Machine Minimal Stepper */}
+      <div className="border border-slate-800/80 rounded-lg p-5 bg-slate-950/60 space-y-3">
+        <div className="flex items-center justify-between pb-2 border-b border-slate-800/80">
           <div>
-            <h3 className="text-sm font-mono font-bold text-white uppercase tracking-wider flex items-center gap-2">
-              <ShieldCheck className="w-4 h-4 text-cyan-400" />
+            <span className="text-xs font-bold text-white uppercase tracking-wider block">
               Work Order Lifecycle State Machine (Principle 3)
-            </h3>
-            <p className="text-xs font-mono text-slate-400 mt-0.5">
-              Strictly enforced in code. Moving to APPROVED requires Supervisor role; closing requires Technician feedback.
-            </p>
+            </span>
+            <span className="text-[11px] text-slate-500">
+              Only Supervisor role can authorize approval; closing requires technician feedback.
+            </span>
           </div>
-          <span className="text-xs font-mono text-slate-400">Total Work Orders: {workOrders.length}</span>
+          <span className="text-slate-400">{workOrders.length} orders total</span>
         </div>
 
-        {/* State Machine Flow Diagram */}
-        <div className="flex items-center justify-between overflow-x-auto py-2 font-mono text-xs gap-1 scrollbar-none">
+        {/* Minimal Stepper Bar */}
+        <div className="flex items-center justify-between overflow-x-auto py-2 gap-1 scrollbar-none text-[11px]">
           {stages.map((stg, i) => {
             const isCurrent = selectedWo?.status === stg;
             const isPast = selectedWo && stages.indexOf(selectedWo.status) > i;
             return (
               <React.Fragment key={stg}>
                 <div 
-                  className={`px-3 py-2 rounded-lg border text-center whitespace-nowrap transition-all ${
+                  className={`px-2.5 py-1.5 rounded border text-center whitespace-nowrap transition-colors ${
                     isCurrent 
-                      ? 'bg-cyan-500/20 text-cyan-300 border-cyan-500/60 font-bold shadow-md shadow-cyan-500/10'
+                      ? 'border-cyan-800 bg-slate-900 text-cyan-300 font-bold'
                       : isPast
-                      ? 'bg-emerald-950/30 text-emerald-300 border-emerald-800/60'
-                      : 'bg-slate-950 text-slate-500 border-slate-800'
+                      ? 'border-slate-800 text-slate-400'
+                      : 'border-transparent text-slate-600'
                   }`}
                 >
-                  <div className="text-[10px] text-slate-500">STAGE {i + 1}</div>
-                  <div className="text-xs">{stg.replace(/_/g, ' ')}</div>
+                  {i + 1}. {stg.replace(/_/g, ' ')}
                 </div>
                 {i < stages.length - 1 && (
-                  <ChevronRight className="w-4 h-4 text-slate-600 shrink-0" />
+                  <span className="text-slate-700">→</span>
                 )}
               </React.Fragment>
             );
@@ -158,38 +148,35 @@ export const WorkOrdersView: React.FC<WorkOrdersViewProps> = ({
         </div>
       </div>
 
-      {/* Main Grid: Orders List & Active Detail Card */}
+      {/* Grid: Order List + Order Detail */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Left: Orders List */}
-        <div className="space-y-3 lg:col-span-1">
-          <h4 className="text-xs font-mono font-bold uppercase text-slate-400 tracking-wider">
-            All Work Orders
-          </h4>
+        <div className="space-y-2">
+          <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider block">
+            Work Order Registry
+          </span>
 
-          <div className="space-y-2">
+          <div className="border border-slate-800/80 rounded-lg overflow-hidden bg-slate-950/60 divide-y divide-slate-800/80">
             {workOrders.map((wo) => {
               const isSelected = selectedWo?.id === wo.id;
               return (
                 <div
                   key={wo.id}
                   onClick={() => setSelectedWo(wo)}
-                  className={`p-4 rounded-xl border transition-all cursor-pointer space-y-2 ${
-                    isSelected
-                      ? 'bg-slate-900 border-cyan-500/60 shadow-md'
-                      : 'bg-slate-950 border-slate-800 hover:border-slate-700'
+                  className={`p-3 transition-colors cursor-pointer space-y-1 ${
+                    isSelected ? 'bg-slate-900/80' : 'hover:bg-slate-900/30'
                   }`}
                 >
-                  <div className="flex items-center justify-between">
-                    <span className="text-xs font-mono font-bold text-white">{wo.id}</span>
-                    <span className={`text-[10px] font-mono px-2 py-0.5 rounded border font-semibold ${getStatusColor(wo.status)}`}>
+                  <div className="flex items-center justify-between text-xs">
+                    <span className="font-bold text-white">{wo.id}</span>
+                    <span className={`text-[11px] font-bold ${getStatusColor(wo.status)}`}>
                       {wo.status}
                     </span>
                   </div>
-
-                  <h5 className="text-xs font-semibold text-slate-200">{wo.title}</h5>
-                  <div className="flex items-center justify-between text-[11px] font-mono text-slate-400 pt-1 border-t border-slate-800/60">
-                    <span>Asset: <strong>{wo.asset_id}</strong></span>
-                    <span>Downtime: {wo.estimated_downtime_hours}h</span>
+                  <div className="text-slate-300 font-sans font-medium text-xs truncate">{wo.title}</div>
+                  <div className="text-[11px] text-slate-500 flex items-center justify-between">
+                    <span>{wo.asset_id}</span>
+                    <span>{wo.estimated_downtime_hours}h downtime</span>
                   </div>
                 </div>
               );
@@ -197,95 +184,77 @@ export const WorkOrdersView: React.FC<WorkOrdersViewProps> = ({
           </div>
         </div>
 
-        {/* Right: Selected Work Order Detail Card */}
+        {/* Right: Selected Work Order Detail */}
         {selectedWo && (
-          <div className="lg:col-span-2 bg-slate-900/90 border border-slate-800 rounded-xl p-6 shadow-sm space-y-5">
-            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 pb-4 border-b border-slate-800">
+          <div className="lg:col-span-2 border border-slate-800/80 rounded-lg p-5 bg-slate-950/60 space-y-4">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 pb-3 border-b border-slate-800/80">
               <div>
-                <div className="flex items-center space-x-2">
-                  <span className="text-sm font-mono font-bold text-white">{selectedWo.id}</span>
-                  <span className={`text-xs font-mono px-2 py-0.5 rounded border font-semibold ${getStatusColor(selectedWo.status)}`}>
+                <div className="flex items-center space-x-2 text-xs">
+                  <span className="font-bold text-white">{selectedWo.id}</span>
+                  <span className="text-slate-600">·</span>
+                  <span className={`font-bold ${getStatusColor(selectedWo.status)}`}>
                     {selectedWo.status}
                   </span>
-                  <span className="text-xs font-mono text-rose-400 bg-rose-950/60 border border-rose-800 px-2 py-0.5 rounded">
-                    PRIORITY: {selectedWo.priority}
-                  </span>
+                  <span className="text-slate-600">·</span>
+                  <span className="text-slate-400">Priority {selectedWo.priority}</span>
                 </div>
-                <h2 className="text-base font-bold text-white mt-1">{selectedWo.title}</h2>
-                <p className="text-xs font-mono text-slate-400">
-                  Target Machine: <strong>{selectedWo.asset_id}</strong> • Root Cause: <strong>{selectedWo.failure_mode}</strong>
-                </p>
+                <h3 className="text-sm font-bold text-white mt-1 font-sans">{selectedWo.title}</h3>
+                <div className="text-[11px] text-slate-500">
+                  Asset: {selectedWo.asset_id} · Failure Mode: {selectedWo.failure_mode}
+                </div>
               </div>
 
-              {/* Action Buttons based on state */}
-              <div className="flex items-center space-x-2">
-                {selectedWo.status === 'WORK_ORDER_CREATED' && (
-                  <button
-                    onClick={() => setIsCloseoutModalOpen(true)}
-                    className="px-4 py-2 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-mono font-bold text-xs shadow-md transition-colors flex items-center gap-1.5"
-                  >
-                    <Wrench className="w-3.5 h-3.5" />
-                    <span>Submit Field Closeout</span>
-                  </button>
-                )}
+              {/* Action Button */}
+              {selectedWo.status === 'WORK_ORDER_CREATED' && (
+                <button
+                  onClick={() => setIsCloseoutModalOpen(true)}
+                  className="px-3 py-1.5 rounded bg-emerald-950/40 hover:bg-emerald-900/60 text-emerald-300 border border-emerald-800/80 font-semibold transition-colors flex items-center gap-1.5"
+                >
+                  <Wrench className="w-3.5 h-3.5" />
+                  <span>Submit Field Closeout</span>
+                </button>
+              )}
 
-                {selectedWo.status === 'CLOSED' && (
-                  <div className="px-3 py-1.5 rounded-lg bg-emerald-950/60 border border-emerald-500/40 text-emerald-300 font-mono text-xs flex items-center gap-1.5">
-                    <CheckCircle2 className="w-4 h-4 text-emerald-400" />
-                    <span>Closed & Audited</span>
-                  </div>
-                )}
-              </div>
+              {selectedWo.status === 'CLOSED' && (
+                <div className="text-emerald-400 text-[11px] flex items-center gap-1 border border-emerald-900/40 bg-emerald-950/20 px-2.5 py-1 rounded">
+                  <CheckCircle2 className="w-3 h-3" />
+                  <span>Closed & Audited</span>
+                </div>
+              )}
             </div>
 
-            {/* Scope & Description */}
-            <div className="space-y-1.5">
-              <h5 className="text-xs font-mono font-bold uppercase text-slate-400 tracking-wider">
-                Work Order Scope & Instructions
-              </h5>
-              <p className="text-xs text-slate-300 leading-relaxed font-mono bg-slate-950 p-3 rounded-lg border border-slate-800">
+            {/* Scope */}
+            <div className="space-y-1">
+              <span className="text-[10px] text-slate-500 uppercase font-bold tracking-wider">
+                Work Scope & Instructions
+              </span>
+              <p className="text-slate-300 leading-relaxed bg-slate-900/40 p-2.5 rounded border border-slate-900">
                 {selectedWo.description}
               </p>
             </div>
 
-            {/* Required Resources Grid */}
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 font-mono text-xs">
-              <div className="bg-slate-950 p-3 rounded-lg border border-slate-800 space-y-1">
-                <span className="text-[10px] text-slate-500 uppercase font-bold">Parts Required</span>
-                <div className="text-slate-300 space-y-0.5">
-                  {selectedWo.parts_required.map((p, i) => (
-                    <div key={i} className="text-cyan-300">• {p}</div>
-                  ))}
-                </div>
+            {/* Resources Grid */}
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-px bg-slate-800/60 rounded p-px border border-slate-800/80 overflow-hidden text-[11px]">
+              <div className="bg-slate-950 p-3 space-y-0.5">
+                <span className="text-[10px] text-slate-500 uppercase">Parts Required</span>
+                <div className="text-cyan-300">{selectedWo.parts_required.join(', ') || 'Standard consumables'}</div>
               </div>
 
-              <div className="bg-slate-950 p-3 rounded-lg border border-slate-800 space-y-1">
-                <span className="text-[10px] text-slate-500 uppercase font-bold">Crew Skills</span>
-                <div className="text-slate-300 space-y-0.5">
-                  {selectedWo.required_skills.map((s, i) => (
-                    <div key={i}>• {s}</div>
-                  ))}
-                </div>
+              <div className="bg-slate-950 p-3 space-y-0.5">
+                <span className="text-[10px] text-slate-500 uppercase">Crew Skills</span>
+                <div className="text-slate-300">{selectedWo.required_skills.join(', ') || 'General mechanics'}</div>
               </div>
 
-              <div className="bg-slate-950 p-3 rounded-lg border border-slate-800 space-y-1">
-                <span className="text-[10px] text-slate-500 uppercase font-bold">Permits & Cost</span>
-                <div className="text-slate-300 space-y-0.5">
-                  <div>Permit: {selectedWo.safety_permits.join(', ') || 'Standard LOTO'}</div>
-                  <div className="text-emerald-400 font-bold">Est Cost: ${selectedWo.estimated_cost.toLocaleString()}</div>
-                </div>
+              <div className="bg-slate-950 p-3 space-y-0.5">
+                <span className="text-[10px] text-slate-500 uppercase">Financials</span>
+                <div className="text-emerald-400 font-bold">${selectedWo.estimated_cost.toLocaleString()} est.</div>
               </div>
             </div>
 
-            {/* Supervisor Approval Stamp */}
-            <div className="p-3.5 rounded-lg bg-slate-950 border border-slate-800/80 flex items-center justify-between text-xs font-mono">
-              <div className="flex items-center space-x-2 text-slate-300">
-                <UserCheck className="w-4 h-4 text-cyan-400" />
-                <span>
-                  Supervisor Authorization: <strong>{selectedWo.supervisor_approved_by || 'Elena Miller (Shift Supervisor)'}</strong>
-                </span>
-              </div>
-              <span className="text-slate-500">Created: {selectedWo.created_at.substring(0, 16).replace('T', ' ')}</span>
+            {/* Supervisor sign-off */}
+            <div className="text-[11px] text-slate-500 pt-2 border-t border-slate-900 flex items-center justify-between">
+              <span>Supervisor: <strong className="text-slate-300">{selectedWo.supervisor_approved_by || 'Elena Miller (Shift Supervisor)'}</strong></span>
+              <span>Created: {selectedWo.created_at.substring(0, 16).replace('T', ' ')}</span>
             </div>
           </div>
         )}
@@ -294,29 +263,27 @@ export const WorkOrdersView: React.FC<WorkOrdersViewProps> = ({
       {/* Technician Closeout Modal */}
       {isCloseoutModalOpen && selectedWo && (
         <div className="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-          <div className="bg-slate-900 border border-slate-800 rounded-xl max-w-lg w-full p-6 shadow-2xl space-y-5 font-mono">
-            <div className="flex items-center justify-between pb-3 border-b border-slate-800">
-              <h3 className="text-sm font-bold text-white uppercase tracking-wider flex items-center gap-2">
-                <Wrench className="w-4 h-4 text-emerald-400" />
-                Field Technician Closeout: {selectedWo.id}
-              </h3>
+          <div className="bg-slate-900 border border-slate-800 rounded-lg max-w-md w-full p-5 space-y-4">
+            <div className="flex items-center justify-between pb-2 border-b border-slate-800">
+              <span className="font-bold text-white uppercase tracking-wider text-xs">
+                Technician Closeout: {selectedWo.id}
+              </span>
               <button onClick={() => setIsCloseoutModalOpen(false)} className="text-slate-400 hover:text-white">✕</button>
             </div>
 
-            <form onSubmit={handleCloseoutSubmit} className="space-y-4 text-xs">
-              {/* Diagnosis Accuracy (Feedback Loop for Metrics) */}
-              <div className="space-y-1.5">
-                <label className="text-slate-400 block font-bold">Diagnosis Accuracy Feedback:</label>
-                <div className="grid grid-cols-3 gap-2">
+            <form onSubmit={handleCloseoutSubmit} className="space-y-3 text-xs">
+              <div className="space-y-1">
+                <label className="text-slate-400 block text-[11px]">Diagnosis Accuracy:</label>
+                <div className="grid grid-cols-3 gap-1.5">
                   {(['CONFIRMED', 'WRONG_DIAGNOSIS', 'OTHER'] as const).map((acc) => (
                     <button
                       type="button"
                       key={acc}
                       onClick={() => setAccuracy(acc)}
-                      className={`p-2 rounded border text-center transition-all ${
+                      className={`p-1.5 rounded border text-center text-[11px] transition-colors ${
                         accuracy === acc
-                          ? 'bg-cyan-500/20 text-cyan-300 border-cyan-500 font-bold'
-                          : 'bg-slate-950 text-slate-400 border-slate-800'
+                          ? 'border-cyan-800 bg-slate-800 text-cyan-300 font-bold'
+                          : 'border-slate-800 bg-slate-950 text-slate-400'
                       }`}
                     >
                       {acc.replace('_', ' ')}
@@ -325,54 +292,51 @@ export const WorkOrdersView: React.FC<WorkOrdersViewProps> = ({
                 </div>
               </div>
 
-              {/* Actual Failure Mode */}
               <div className="space-y-1">
-                <label className="text-slate-400 block font-bold">Actual Verified Failure Mode:</label>
+                <label className="text-slate-400 block text-[11px]">Actual Failure Mode:</label>
                 <input
                   type="text"
                   value={actualFm}
                   onChange={(e) => setActualFm(e.target.value)}
-                  className="w-full bg-slate-950 border border-slate-800 rounded px-3 py-2 text-white focus:outline-none focus:border-cyan-500"
+                  className="w-full bg-slate-950 border border-slate-800 rounded px-2.5 py-1.5 text-white focus:outline-none focus:border-slate-700"
                 />
               </div>
 
-              {/* Actual Downtime Hours */}
               <div className="space-y-1">
-                <label className="text-slate-400 block font-bold">Actual Downtime Hours Taken:</label>
+                <label className="text-slate-400 block text-[11px]">Actual Downtime (hours):</label>
                 <input
                   type="number"
                   step="0.1"
                   value={actualHours}
                   onChange={(e) => setActualHours(e.target.value)}
-                  className="w-full bg-slate-950 border border-slate-800 rounded px-3 py-2 text-white focus:outline-none focus:border-cyan-500"
+                  className="w-full bg-slate-950 border border-slate-800 rounded px-2.5 py-1.5 text-white focus:outline-none focus:border-slate-700"
                 />
               </div>
 
-              {/* Field Technician Free-Text Notes */}
               <div className="space-y-1">
-                <label className="text-slate-400 block font-bold">Technician Physical Notes:</label>
+                <label className="text-slate-400 block text-[11px]">Physical Notes:</label>
                 <textarea
-                  rows={3}
+                  rows={2}
                   value={techNotes}
                   onChange={(e) => setTechNotes(e.target.value)}
-                  className="w-full bg-slate-950 border border-slate-800 rounded px-3 py-2 text-white focus:outline-none focus:border-cyan-500"
+                  className="w-full bg-slate-950 border border-slate-800 rounded px-2.5 py-1.5 text-white focus:outline-none focus:border-slate-700"
                 />
               </div>
 
-              <div className="pt-2 flex items-center justify-end space-x-3">
+              <div className="pt-2 flex items-center justify-end space-x-2">
                 <button
                   type="button"
                   onClick={() => setIsCloseoutModalOpen(false)}
-                  className="px-4 py-2 rounded bg-slate-800 hover:bg-slate-700 text-slate-300"
+                  className="px-3 py-1.5 rounded bg-slate-800 text-slate-300"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="px-5 py-2 rounded bg-emerald-600 hover:bg-emerald-500 text-white font-bold flex items-center gap-1.5"
+                  className="px-4 py-1.5 rounded bg-emerald-900/60 hover:bg-emerald-900 text-emerald-300 border border-emerald-700 font-bold"
                 >
-                  {isSubmitting ? 'Recording...' : 'Close Work Order'}
+                  {isSubmitting ? 'Closing...' : 'Close Work Order'}
                 </button>
               </div>
             </form>

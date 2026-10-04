@@ -208,8 +208,8 @@ export default function App() {
         )}
       </main>
 
-      <footer className="border-t border-slate-900 bg-slate-950 py-3 text-center text-xs font-mono text-slate-500">
-        MaintainCopilot • Industrial Asset Agnostic Precision Reliability • Strict Supervisor Authorization • Principle 1-5 Compliant
+      <footer className="border-t border-slate-800/60 bg-slate-950 py-3 text-center text-xs font-mono text-slate-500">
+        MaintainCopilot · Advisory L2 · Deterministic Telemetry · Supervisor Sign-Off Enforced
       </footer>
     </div>
   );

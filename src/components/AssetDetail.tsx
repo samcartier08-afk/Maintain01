@@ -1,20 +1,13 @@
 import React, { useState } from 'react';
-import { Asset, TelemetryReading } from '../types';
+import { Asset } from '../types';
 import { 
-  Activity, 
-  AlertTriangle, 
   ArrowRight, 
-  CheckCircle2, 
+  ChevronRight, 
   Clock, 
-  Cpu, 
-  Flame, 
-  Gauge, 
-  Info, 
-  Sliders, 
   TrendingUp, 
-  Wrench,
-  ChevronRight,
-  ShieldCheck
+  Wrench, 
+  CheckCircle2, 
+  AlertTriangle 
 } from 'lucide-react';
 
 interface AssetDetailProps {
@@ -45,48 +38,47 @@ export const AssetDetail: React.FC<AssetDetailProps> = ({
     install_date: '2023-03-15',
   };
 
-  // Specific telemetry mock data based on asset type
   const isMotor = asset.id === 'M-204';
   const isPump = asset.id === 'P-102';
   const isCompressor = asset.id === 'C-301';
 
-  // Concrete deltas
+  // Metrics
   const evidenceDeltas = isMotor
     ? [
-        { label: 'Vibration RMS', delta: '+46.2%', actual: '4.65 mm/s', expected: '2.15 mm/s', z: '+4.2σ', contribution: '74.2%' },
-        { label: 'Stator Current', delta: '+4.1%', actual: '78.2 A', expected: '75.1 A', z: '+0.8σ', contribution: '6.4%' },
-        { label: 'Winding Temp', delta: '+14.5°C', actual: '79.4 °C', expected: '65.0 °C', z: '+2.1σ', contribution: '19.4%' },
+        { label: 'Vibration RMS', actual: '4.65 mm/s', expected: '2.15 mm/s', delta: '+46.2%', z: '+4.2σ', share: '74.2%' },
+        { label: 'Stator Current', actual: '78.2 A', expected: '75.1 A', delta: '+4.1%', z: '+0.8σ', share: '6.4%' },
+        { label: 'Winding Temp', actual: '79.4 °C', expected: '65.0 °C', delta: '+14.5°C', z: '+2.1σ', share: '19.4%' },
+        { label: 'Belt Speed', actual: '1.98 m/s', expected: '2.05 m/s', delta: '-3.4%', z: '-0.7σ', share: '0.0%' },
       ]
     : isPump
     ? [
-        { label: 'Casing Vibration', delta: '+58.4%', actual: '4.35 mm/s', expected: '1.80 mm/s', z: '+3.8σ', contribution: '68.0%' },
-        { label: 'Suction Pressure', delta: '-42.0%', actual: '1.42 bar', expected: '2.45 bar', z: '-3.1σ', contribution: '24.5%' },
-        { label: 'Flow Rate', delta: '-8.5%', actual: '340 m3/h', expected: '372 m3/h', z: '-1.1σ', contribution: '7.5%' },
+        { label: 'Casing Vibration', actual: '4.35 mm/s', expected: '1.80 mm/s', delta: '+58.4%', z: '+3.8σ', share: '68.0%' },
+        { label: 'Suction Pressure', actual: '1.42 bar', expected: '2.45 bar', delta: '-42.0%', z: '-3.1σ', share: '24.5%' },
+        { label: 'Discharge Press', actual: '8.80 bar', expected: '11.5 bar', delta: '-23.5%', z: '-2.4σ', share: '7.5%' },
+        { label: 'Flow Rate', actual: '340 m3/h', expected: '372 m3/h', delta: '-8.5%', z: '-1.1σ', share: '0.0%' },
       ]
     : [
-        { label: 'Discharge Temp', delta: '+24.1°C', actual: '101.4 °C', expected: '81.7 °C', z: '+4.1σ', contribution: '71.0%' },
-        { label: 'Oil Pressure', delta: '-38.2%', actual: '3.12 bar', expected: '5.05 bar', z: '-3.4σ', contribution: '22.0%' },
-        { label: 'Vibration Vel', delta: '+18.5%', actual: '3.85 mm/s', expected: '3.25 mm/s', z: '+1.8σ', contribution: '7.0%' },
+        { label: 'Discharge Temp', actual: '101.4 °C', expected: '81.7 °C', delta: '+24.1°C', z: '+4.1σ', share: '71.0%' },
+        { label: 'Oil Pressure', actual: '3.12 bar', expected: '5.05 bar', delta: '-38.2%', z: '-3.4σ', share: '22.0%' },
+        { label: 'Vibration Vel', actual: '3.85 mm/s', expected: '3.25 mm/s', delta: '+18.5%', z: '+1.8σ', share: '7.0%' },
+        { label: 'Motor Power', actual: '118 kW', expected: '112 kW', delta: '+5.3%', z: '+0.9σ', share: '0.0%' },
       ];
 
-  // Hypotheses
   const hypotheses = isMotor
     ? [
         {
           name: 'bearing_wear',
           prob: 88,
-          severity: 'CRITICAL',
           sensor: 'vibration_rms',
-          hints: 'Progressive exponential elevation in vibration_rms uncoupled from stator current load. Drive-end bearing raceway micro-spalling.',
+          hints: 'Progressive exponential elevation in vibration velocity RMS decoupled from current load.',
           inspection: 'Perform high-frequency demodulated FFT; inspect SKF 6314-C3 inner raceway.'
         },
         {
           name: 'winding_overheating',
           prob: 12,
-          severity: 'MEDIUM',
           sensor: 'winding_temp',
           hints: 'Secondary thermal rise correlated with bearing friction heat conduction.',
-          inspection: 'Measure stator resistance and check cooling fan shroud for parcel dust clogging.'
+          inspection: 'Measure stator resistance and check cooling fan shroud.'
         }
       ]
     : isPump
@@ -94,7 +86,6 @@ export const AssetDetail: React.FC<AssetDetailProps> = ({
         {
           name: 'cavitation',
           prob: 82,
-          severity: 'CRITICAL',
           sensor: 'casing_vibration',
           hints: 'Acoustic chattering vibration accompanied by suction header pressure loss below NPSHa margin.',
           inspection: 'Clear inlet suction strainer and inspect bronze-aluminum impeller vane tips.'
@@ -102,7 +93,6 @@ export const AssetDetail: React.FC<AssetDetailProps> = ({
         {
           name: 'mechanical_seal_leakage',
           prob: 18,
-          severity: 'HIGH',
           sensor: 'casing_vibration',
           hints: 'Shaft runout causing face deflection on cartridge seal.',
           inspection: 'Check seal buffer barrier fluid reservoir level.'
@@ -112,359 +102,270 @@ export const AssetDetail: React.FC<AssetDetailProps> = ({
         {
           name: 'oil_starvation_overheating',
           prob: 85,
-          severity: 'CRITICAL',
           sensor: 'discharge_temp',
-          hints: 'Steep rise in discharge air/oil temperature with simultaneous dip in lube oil injection pressure.',
+          hints: 'Rise in discharge air/oil temperature with simultaneous dip in lube oil injection pressure.',
           inspection: 'Inspect 71C thermostatic bypass valve element and replace oil filter cartridge.'
         },
         {
           name: 'rotor_unbalance',
           prob: 15,
-          severity: 'MEDIUM',
           sensor: 'vibration_velocity',
           hints: 'Moderate elevation in 1X running frequency.',
           inspection: 'Check compressor airend coupling alignment.'
         }
       ];
 
-  // RUL details
   const rulDetails = isMotor
-    ? { p10: 5.2, p50: 8.6, p90: 13.0, confidence: 'HIGH', score: 0.88, rate: '+0.12 mm/s per day', limit: '4.5 mm/s ISO Class III' }
+    ? { p10: 5.2, p50: 8.6, p90: 13.0, confidence: 'HIGH', score: 0.88, rate: '+0.12 mm/s/day', limit: '4.5 mm/s ISO limit' }
     : isPump
-    ? { p10: 7.1, p50: 11.4, p90: 16.5, confidence: 'HIGH', score: 0.84, rate: '+0.09 mm/s per day', limit: '4.2 mm/s ISO' }
-    : { p10: 9.0, p50: 14.2, p90: 20.0, confidence: 'MEDIUM', score: 0.78, rate: '+1.4°C per day', limit: '105°C Trip' };
+    ? { p10: 7.1, p50: 11.4, p90: 16.5, confidence: 'HIGH', score: 0.84, rate: '+0.09 mm/s/day', limit: '4.2 mm/s ISO limit' }
+    : { p10: 9.0, p50: 14.2, p90: 20.0, confidence: 'MEDIUM', score: 0.78, rate: '+1.4°C/day', limit: '105°C Trip limit' };
 
   return (
-    <div className="space-y-6">
-      {/* Top Header & Selector */}
-      <div className="bg-slate-900/90 border border-slate-800 rounded-xl p-5 shadow-sm">
-        <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
-          <div className="space-y-1.5">
-            <div className="flex items-center space-x-2">
-              <span className="font-mono text-xs font-semibold text-cyan-400 bg-cyan-950/60 border border-cyan-800/60 px-2.5 py-0.5 rounded">
-                SELECTED ASSET
-              </span>
-              <span className="text-xs font-mono font-bold text-white tracking-wider">{asset.id}</span>
-              <span className={`text-[10px] font-mono font-bold px-2 py-0.5 rounded border ${
-                asset.criticality_class === 'A'
-                  ? 'bg-rose-500/20 text-rose-300 border-rose-500/40'
-                  : 'bg-amber-500/20 text-amber-300 border-amber-500/40'
-              }`}>
-                CRITICALITY {asset.criticality_class}
-              </span>
-              <span className="text-[10px] font-mono text-slate-400 bg-slate-800 px-2 py-0.5 rounded">
-                {asset.asset_type}
+    <div className="space-y-6 font-mono text-xs">
+      {/* Machine Header */}
+      <div className="border border-slate-800/80 rounded-lg p-5 bg-slate-950/60">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+          <div className="space-y-1">
+            <div className="flex items-center space-x-2 text-xs">
+              <span className="font-bold text-white text-sm">{asset.id}</span>
+              <span className="text-slate-600">·</span>
+              <span className="text-slate-300 font-sans font-medium text-sm">{asset.name}</span>
+              <span className="text-slate-600">·</span>
+              <span className={asset.criticality_class === 'A' ? 'text-rose-400' : 'text-amber-400'}>
+                Class {asset.criticality_class}
               </span>
             </div>
-
-            <h2 className="text-lg font-bold text-white">{asset.name}</h2>
-            <p className="text-xs font-mono text-slate-400">
-              Location: {asset.location} • Production Line: <strong>{asset.line_id}</strong> • Commissioned: {asset.install_date}
-            </p>
+            <div className="text-[11px] text-slate-500">
+              {asset.location} · Line: {asset.line_id} · Commissioned: {asset.install_date}
+            </div>
           </div>
 
-          {/* Asset Switcher Dropdown */}
-          <div className="flex items-center space-x-3 self-stretch md:self-auto">
-            <div className="flex-1 md:flex-initial">
-              <label className="block text-[10px] font-mono text-slate-500 uppercase tracking-wider mb-1">
-                Switch Machinery Target
-              </label>
-              <select
-                value={selectedAssetId}
-                onChange={(e) => onSelectAssetId(e.target.value)}
-                className="w-full bg-slate-950 border border-slate-700 text-slate-200 text-xs font-mono rounded-lg px-3 py-2 focus:outline-none focus:border-cyan-500"
-              >
-                {assets.map((a) => (
-                  <option key={a.id} value={a.id}>
-                    {a.id} - {a.name} ({a.asset_type})
-                  </option>
-                ))}
-              </select>
-            </div>
+          <div className="flex items-center space-x-2 self-stretch sm:self-auto">
+            <select
+              value={selectedAssetId}
+              onChange={(e) => onSelectAssetId(e.target.value)}
+              className="bg-slate-900 border border-slate-800 rounded px-2.5 py-1.5 text-xs text-slate-300 focus:outline-none focus:border-slate-700"
+            >
+              {assets.map((a) => (
+                <option key={a.id} value={a.id}>{a.id} - {a.name}</option>
+              ))}
+            </select>
 
             <button
               onClick={() => onOpenDecisionBrief(asset.id)}
-              className="mt-4 md:mt-0 px-4 py-2.5 rounded-lg bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-mono font-bold text-xs shadow-md shadow-cyan-500/20 transition-all flex items-center gap-1.5"
+              className="px-3 py-1.5 rounded bg-cyan-950/40 hover:bg-cyan-900/40 text-cyan-400 border border-cyan-800/60 transition-colors flex items-center gap-1 font-medium"
             >
-              <span>Generate Brief</span>
-              <ArrowRight className="w-4 h-4" />
+              <span>Decision Brief</span>
+              <ArrowRight className="w-3 h-3" />
             </button>
           </div>
         </div>
       </div>
 
-      {/* Real-time Metric Tiles */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        {evidenceDeltas.map((metric, idx) => (
-          <div 
-            key={idx}
-            className="bg-slate-900/80 border border-slate-800 rounded-xl p-4 shadow-sm relative overflow-hidden"
-          >
-            <div className="flex items-center justify-between text-slate-400 text-xs font-mono">
-              <span>{metric.label}</span>
-              <span className="text-[10px] text-cyan-400 font-semibold">{metric.contribution} Anomaly Share</span>
+      {/* 4 Telemetry Metric Tiles */}
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-px bg-slate-800/60 rounded-lg p-px border border-slate-800/80 overflow-hidden">
+        {evidenceDeltas.map((m, idx) => (
+          <div key={idx} className="bg-slate-950 p-4 space-y-1">
+            <div className="text-[11px] text-slate-500 uppercase flex items-center justify-between">
+              <span>{m.label}</span>
+              <span className="text-cyan-400/90">{m.share}</span>
             </div>
-            
-            <div className="mt-2 flex items-baseline justify-between">
-              <span className="text-xl font-bold font-mono text-white">{metric.actual}</span>
-              <span className={`text-xs font-mono font-bold px-1.5 py-0.5 rounded ${
-                metric.delta.startsWith('+') && !metric.delta.includes('Current')
-                  ? 'bg-rose-500/20 text-rose-300'
-                  : 'bg-amber-500/20 text-amber-300'
+            <div className="flex items-baseline space-x-2">
+              <span className="text-xl font-bold text-white tabular-nums">{m.actual}</span>
+              <span className={`text-[11px] font-semibold ${
+                m.delta.startsWith('+') && !m.label.includes('Current') && !m.label.includes('Power')
+                  ? 'text-rose-400' 
+                  : 'text-slate-400'
               }`}>
-                {metric.delta}
+                {m.delta}
               </span>
             </div>
-
-            <div className="mt-2 text-[11px] font-mono text-slate-400 flex items-center justify-between border-t border-slate-800/60 pt-2">
-              <span>Baseline: {metric.expected}</span>
-              <span className="text-slate-300 font-bold">{metric.z}</span>
+            <div className="text-[11px] text-slate-500 pt-1 border-t border-slate-900 flex items-center justify-between">
+              <span>Base: {m.expected}</span>
+              <span>{m.z}</span>
             </div>
           </div>
         ))}
-
-        {/* Health Score Tile */}
-        <div className="bg-slate-900/80 border border-slate-800 rounded-xl p-4 shadow-sm">
-          <div className="text-slate-400 text-xs font-mono">Continuous Health Index</div>
-          <div className="mt-2 flex items-baseline space-x-2">
-            <span className="text-2xl font-bold font-mono text-rose-400">
-              {isMotor ? '38.2' : isPump ? '52.0' : '64.5'}
-            </span>
-            <span className="text-xs text-slate-500 font-mono">/ 100</span>
-            <span className="text-xs font-mono text-rose-300 bg-rose-500/20 px-2 py-0.5 rounded font-semibold ml-auto">
-              {isMotor ? 'CRITICAL RISK' : 'WARNING'}
-            </span>
-          </div>
-          <div className="mt-3 text-[11px] font-mono text-slate-400 border-t border-slate-800/60 pt-2 flex items-center gap-1 text-emerald-400">
-            <ShieldCheck className="w-3.5 h-3.5" /> Deterministic Baseline Model Active
-          </div>
-        </div>
       </div>
 
-      {/* Middle Section: Sensor Trend vs Baseline Envelope SVG Chart */}
-      <div className="bg-slate-900/90 border border-slate-800 rounded-xl p-5 shadow-sm space-y-4">
-        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 pb-3 border-b border-slate-800">
+      {/* Telemetry Chart: Sensor Trend vs Baseline Envelope */}
+      <div className="border border-slate-800/80 rounded-lg p-5 bg-slate-950/60 space-y-3">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 pb-2 border-b border-slate-800/80">
           <div>
-            <div className="flex items-center space-x-2">
-              <TrendingUp className="w-4 h-4 text-cyan-400" />
-              <h3 className="text-sm font-mono font-bold text-white uppercase tracking-wider">
-                {isMotor ? 'Vibration Velocity RMS (mm/s)' : isPump ? 'Casing Vibration & Differential Head' : 'Discharge Temperature (°C)'} vs Load-Normalized Baseline Envelope
-              </h3>
-            </div>
-            <p className="text-xs text-slate-400 font-mono mt-0.5">
-              Decoupled from load cycle variations ({isMotor ? 'Stator Current' : isPump ? 'Discharge Flow' : 'Motor Power'}). Injected fault starts at Day 42.
-            </p>
+            <span className="text-xs font-bold text-white uppercase tracking-wider block">
+              {isMotor ? 'Vibration Velocity RMS (mm/s)' : isPump ? 'Casing Vibration (mm/s)' : 'Discharge Temperature (°C)'} vs Load-Normalized Baseline
+            </span>
+            <span className="text-[11px] text-slate-500">
+              Decoupled from operational load cycles. Injected fault onset: Day 42.0.
+            </span>
           </div>
 
-          {/* Timeframe Toggles */}
-          <div className="flex items-center space-x-1 bg-slate-950 p-1 rounded-lg border border-slate-800 font-mono text-xs">
+          <div className="flex items-center space-x-1 text-[11px]">
             <button
               onClick={() => setTimeframe('60d')}
-              className={`px-2.5 py-1 rounded transition-colors ${
-                timeframe === '60d' ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/40' : 'text-slate-400 hover:text-slate-200'
+              className={`px-2 py-0.5 rounded border transition-colors ${
+                timeframe === '60d' ? 'bg-slate-800 text-white border-slate-700' : 'text-slate-500 border-transparent hover:text-slate-300'
               }`}
             >
-              Full 60 Days
+              60 Days
             </button>
             <button
               onClick={() => setTimeframe('14d')}
-              className={`px-2.5 py-1 rounded transition-colors ${
-                timeframe === '14d' ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/40' : 'text-slate-400 hover:text-slate-200'
+              className={`px-2 py-0.5 rounded border transition-colors ${
+                timeframe === '14d' ? 'bg-slate-800 text-white border-slate-700' : 'text-slate-500 border-transparent hover:text-slate-300'
               }`}
             >
-              Last 14d Fault
+              Fault Period
             </button>
             <button
               onClick={() => setTimeframe('artifact')}
-              className={`px-2.5 py-1 rounded transition-colors ${
-                timeframe === 'artifact' ? 'bg-amber-500/20 text-amber-300 border border-amber-500/40' : 'text-slate-400 hover:text-slate-200'
+              className={`px-2 py-0.5 rounded border transition-colors ${
+                timeframe === 'artifact' ? 'bg-slate-800 text-white border-slate-700' : 'text-slate-500 border-transparent hover:text-slate-300'
               }`}
             >
-              Day 25 Artifact
+              Artifact Day 25
             </button>
           </div>
         </div>
 
-        {/* SVG Telemetry Visualization */}
-        <div className="h-64 w-full relative bg-slate-950/70 rounded-lg p-2 border border-slate-800/80">
-          <svg className="w-full h-full overflow-visible" viewBox="0 0 800 240" preserveAspectRatio="none">
+        {/* Minimal SVG Chart */}
+        <div className="h-60 w-full relative bg-slate-950 rounded p-1">
+          <svg className="w-full h-full overflow-visible" viewBox="0 0 800 220" preserveAspectRatio="none">
             {/* Grid Lines */}
-            <line x1="50" y1="30" x2="780" y2="30" stroke="#1e293b" strokeDasharray="4" />
-            <line x1="50" y1="80" x2="780" y2="80" stroke="#1e293b" strokeDasharray="4" />
-            <line x1="50" y1="130" x2="780" y2="130" stroke="#1e293b" strokeDasharray="4" />
-            <line x1="50" y1="180" x2="780" y2="180" stroke="#1e293b" strokeDasharray="4" />
+            <line x1="40" y1="30" x2="780" y2="30" stroke="#172033" strokeDasharray="3" />
+            <line x1="40" y1="75" x2="780" y2="75" stroke="#172033" strokeDasharray="3" />
+            <line x1="40" y1="120" x2="780" y2="120" stroke="#172033" strokeDasharray="3" />
+            <line x1="40" y1="165" x2="780" y2="165" stroke="#172033" strokeDasharray="3" />
 
-            {/* Critical Threshold Line (e.g. 4.5 mm/s ISO limit) */}
-            <line x1="50" y1="50" x2="780" y2="50" stroke="#f43f5e" strokeWidth="1.5" strokeDasharray="6" />
-            <text x="700" y="44" fill="#f43f5e" fontSize="10" fontFamily="monospace" fontWeight="bold">
+            {/* Critical Limit Line */}
+            <line x1="40" y1="45" x2="780" y2="45" stroke="#e11d48" strokeWidth="1" strokeDasharray="4" />
+            <text x="680" y="40" fill="#e11d48" fontSize="9" fontFamily="monospace">
               CRITICAL LIMIT ({rulDetails.limit})
             </text>
 
-            {/* Baseline Normal Operating Envelope Shaded Area */}
+            {/* Baseline Normal Envelope */}
             <polygon 
-              points="50,140 200,142 350,138 480,145 600,140 780,142 780,185 600,182 480,186 350,180 200,184 50,182"
-              fill="#0284c7"
-              fillOpacity="0.12"
+              points="40,135 200,138 350,134 480,140 600,136 780,138 780,175 600,172 480,176 350,170 200,174 40,172"
+              fill="#0369a1"
+              fillOpacity="0.08"
             />
-            {/* Baseline Expected Mean Curve */}
+            {/* Expected Baseline Curve */}
             <path
-              d="M 50 160 Q 200 162, 350 158 T 600 162 T 780 160"
+              d="M 40 152 Q 200 154, 350 150 T 600 154 T 780 152"
               fill="none"
-              stroke="#0ea5e9"
-              strokeWidth="2"
-              strokeDasharray="4"
+              stroke="#0284c7"
+              strokeWidth="1.5"
+              strokeDasharray="3"
             />
 
-            {/* Injected Fault Annotation Line at Day 42 */}
-            <line x1="520" y1="20" x2="520" y2="210" stroke="#fbbf24" strokeWidth="1.5" strokeDasharray="2" />
-            <text x="525" y="28" fill="#fbbf24" fontSize="10" fontFamily="monospace" fontWeight="bold">
+            {/* Day 42 Fault Line */}
+            <line x1="520" y1="20" x2="520" y2="190" stroke="#d97706" strokeWidth="1" strokeDasharray="2" />
+            <text x="525" y="25" fill="#d97706" fontSize="9" fontFamily="monospace">
               Fault Onset (Day 42)
             </text>
 
-            {/* Day 25 Artifact Annotation */}
-            <line x1="330" y1="70" x2="330" y2="210" stroke="#94a3b8" strokeWidth="1" strokeDasharray="2" />
-            <text x="335" y="85" fill="#94a3b8" fontSize="9" fontFamily="monospace">
-              Day 25 Spike (Non-critical Artifact)
-            </text>
-
-            {/* Actual Observed Telemetry Path */}
+            {/* Actual Observed Telemetry */}
             <path
-              d="M 50 162 L 90 159 L 140 165 L 180 158 L 220 163 L 270 160 L 320 161 
-                 L 330 95 L 340 158 
-                 L 380 160 L 430 159 L 480 162 L 515 160 
-                 L 540 148 L 570 134 L 610 115 L 660 92 L 710 68 L 760 48 L 780 44"
+              d="M 40 154 L 90 151 L 140 157 L 180 150 L 220 155 L 270 152 L 320 153 
+                 L 330 90 L 340 150 
+                 L 380 152 L 430 151 L 480 154 L 515 152 
+                 L 540 140 L 570 126 L 610 108 L 660 85 L 710 62 L 760 45 L 780 40"
               fill="none"
               stroke="#f43f5e"
-              strokeWidth="2.5"
+              strokeWidth="2"
             />
 
-            {/* Latest point highlight */}
-            <circle cx="780" cy="44" r="5" fill="#f43f5e" className="animate-pulse" />
+            <circle cx="780" cy="40" r="4" fill="#f43f5e" />
           </svg>
 
-          {/* Chart Legend */}
-          <div className="absolute bottom-3 left-6 flex items-center space-x-4 text-[10px] font-mono text-slate-400 bg-slate-900/90 px-3 py-1.5 rounded border border-slate-800">
+          {/* Minimal Legend */}
+          <div className="flex items-center space-x-4 text-[10px] text-slate-500 pt-2 border-t border-slate-900">
             <span className="flex items-center gap-1.5">
-              <span className="w-3 h-0.5 bg-rose-500"></span> Actual Sensor Telemetry
+              <span className="w-2.5 h-0.5 bg-rose-500"></span> Sensor Telemetry
             </span>
             <span className="flex items-center gap-1.5">
-              <span className="w-3 h-0.5 bg-sky-500 border-dashed"></span> Load-Normalized Expected Baseline
+              <span className="w-2.5 h-0.5 bg-sky-500 border-dashed"></span> Expected Baseline
             </span>
             <span className="flex items-center gap-1.5">
-              <span className="w-2.5 h-2.5 bg-sky-500/20 border border-sky-500/40"></span> ±2σ Normal Envelope
+              <span className="w-2 h-2 bg-sky-500/20"></span> ±2σ Envelope
             </span>
           </div>
         </div>
       </div>
 
-      {/* Bottom 2 Columns: Ranked Hypotheses & Prognostics RUL Quantiles */}
+      {/* Bottom Grid: Ranked Hypotheses & RUL Quantiles */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Left: Ranked Fault Hypotheses */}
-        <div className="bg-slate-900/90 border border-slate-800 rounded-xl p-5 shadow-sm space-y-4">
-          <div className="flex items-center justify-between pb-3 border-b border-slate-800">
-            <div className="flex items-center space-x-2">
-              <Flame className="w-4 h-4 text-amber-400" />
-              <h3 className="text-sm font-mono font-bold text-white uppercase tracking-wider">
-                Ranked Fault Hypotheses
-              </h3>
-            </div>
-            <span className="text-xs font-mono text-slate-400">Plugin Rule Engine</span>
+        {/* Left: Ranked Hypotheses */}
+        <div className="border border-slate-800/80 rounded-lg p-5 bg-slate-950/60 space-y-3">
+          <div className="flex items-center justify-between pb-2 border-b border-slate-800/80">
+            <span className="text-xs font-bold text-white uppercase tracking-wider">
+              Ranked Fault Hypotheses
+            </span>
+            <span className="text-[11px] text-slate-500">Plugin Rule Engine</span>
           </div>
 
           <div className="space-y-3">
             {hypotheses.map((h, i) => (
-              <div 
-                key={i}
-                className="bg-slate-950 p-4 rounded-lg border border-slate-800/90 space-y-2.5"
-              >
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center space-x-2">
-                    <span className="text-xs font-mono font-bold text-cyan-400 uppercase">
-                      #{i + 1} {h.name.replace('_', ' ')}
-                    </span>
-                    <span className={`text-[10px] font-mono px-2 py-0.5 rounded font-semibold border ${
-                      h.severity === 'CRITICAL' ? 'bg-rose-500/20 text-rose-300 border-rose-500/40' : 'bg-amber-500/20 text-amber-300 border-amber-500/40'
-                    }`}>
-                      {h.severity}
-                    </span>
-                  </div>
-
-                  <div className="flex items-center space-x-1.5">
-                    <span className="text-xs font-mono text-slate-400">Probability:</span>
-                    <span className="text-sm font-mono font-bold text-white">{h.prob}%</span>
-                  </div>
+              <div key={i} className="p-3 rounded border border-slate-800/60 bg-slate-900/30 space-y-1.5">
+                <div className="flex items-center justify-between text-xs">
+                  <span className="font-bold text-white">
+                    {i + 1}. {h.name.replace('_', ' ').toUpperCase()}
+                  </span>
+                  <span className="text-cyan-400 font-bold tabular-nums">{h.prob}% prob</span>
                 </div>
-
-                <p className="text-xs text-slate-300 leading-relaxed font-mono">
-                  {h.hints}
-                </p>
-
-                <div className="pt-2 border-t border-slate-800/80 text-[11px] font-mono text-slate-400 flex items-start gap-1.5">
-                  <Wrench className="w-3.5 h-3.5 text-cyan-400 shrink-0 mt-0.5" />
-                  <span><strong>Inspection Recommendation:</strong> {h.inspection}</span>
+                <p className="text-[11px] text-slate-400 leading-normal">{h.hints}</p>
+                <div className="text-[11px] text-slate-500 pt-1 border-t border-slate-900">
+                  <span className="text-slate-400">Action:</span> {h.inspection}
                 </div>
               </div>
             ))}
           </div>
         </div>
 
-        {/* Right: RUL Quantiles & Uncertainty Envelope */}
-        <div className="bg-slate-900/90 border border-slate-800 rounded-xl p-5 shadow-sm space-y-4">
-          <div className="flex items-center justify-between pb-3 border-b border-slate-800">
-            <div className="flex items-center space-x-2">
-              <Clock className="w-4 h-4 text-cyan-400" />
-              <h3 className="text-sm font-mono font-bold text-white uppercase tracking-wider">
-                RUL Uncertainty Envelope (Principle 4)
-              </h3>
-            </div>
-            <span className="text-xs font-mono px-2 py-0.5 rounded bg-cyan-500/10 text-cyan-300 border border-cyan-500/30">
+        {/* Right: RUL Quantile Uncertainty Range */}
+        <div className="border border-slate-800/80 rounded-lg p-5 bg-slate-950/60 space-y-3">
+          <div className="flex items-center justify-between pb-2 border-b border-slate-800/80">
+            <span className="text-xs font-bold text-white uppercase tracking-wider">
+              RUL Uncertainty Range (Principle 4)
+            </span>
+            <span className="text-[11px] text-slate-400">
               Confidence: {rulDetails.confidence} ({Math.round(rulDetails.score * 100)}%)
             </span>
           </div>
 
-          <p className="text-xs text-slate-400 font-mono">
-            Every output represents an uncertainty range based on degradation rate ({rulDetails.rate}). Never outputs a single deterministic date.
+          <p className="text-[11px] text-slate-500 leading-normal">
+            Prognostic degradation rate: {rulDetails.rate}. Output represented as probabilistic range, never a single point date.
           </p>
 
-          {/* RUL Quantiles Cards */}
-          <div className="grid grid-cols-3 gap-3">
-            <div className="bg-slate-950 p-3 rounded-lg border border-rose-500/30 text-center">
-              <div className="text-[10px] font-mono text-rose-400 uppercase font-semibold">p10 (Conservative)</div>
-              <div className="text-2xl font-bold font-mono text-rose-300 mt-1">{rulDetails.p10}d</div>
-              <div className="text-[10px] font-mono text-slate-500 mt-0.5">Early Risk Threshold</div>
+          <div className="grid grid-cols-3 gap-2 text-center pt-1">
+            <div className="p-3 rounded border border-slate-800 bg-slate-900/40">
+              <div className="text-[10px] text-rose-400 uppercase font-semibold">p10 (Early)</div>
+              <div className="text-xl font-bold text-white mt-1 tabular-nums">{rulDetails.p10}d</div>
+              <div className="text-[10px] text-slate-500 mt-0.5">Conservative</div>
             </div>
 
-            <div className="bg-slate-950 p-3 rounded-lg border border-amber-500/40 text-center">
-              <div className="text-[10px] font-mono text-amber-300 uppercase font-semibold">p50 (Median)</div>
-              <div className="text-2xl font-bold font-mono text-amber-200 mt-1">{rulDetails.p50}d</div>
-              <div className="text-[10px] font-mono text-slate-500 mt-0.5">Expected Operating Days</div>
+            <div className="p-3 rounded border border-slate-800 bg-slate-900/40">
+              <div className="text-[10px] text-amber-300 uppercase font-semibold">p50 (Median)</div>
+              <div className="text-xl font-bold text-white mt-1 tabular-nums">{rulDetails.p50}d</div>
+              <div className="text-[10px] text-slate-500 mt-0.5">Expected</div>
             </div>
 
-            <div className="bg-slate-950 p-3 rounded-lg border border-slate-800 text-center">
-              <div className="text-[10px] font-mono text-cyan-400 uppercase font-semibold">p90 (Optimistic)</div>
-              <div className="text-2xl font-bold font-mono text-cyan-300 mt-1">{rulDetails.p90}d</div>
-              <div className="text-[10px] font-mono text-slate-500 mt-0.5">Tail Endurance</div>
+            <div className="p-3 rounded border border-slate-800 bg-slate-900/40">
+              <div className="text-[10px] text-cyan-400 uppercase font-semibold">p90 (Tail)</div>
+              <div className="text-xl font-bold text-white mt-1 tabular-nums">{rulDetails.p90}d</div>
+              <div className="text-[10px] text-slate-500 mt-0.5">Optimistic</div>
             </div>
           </div>
 
-          {/* Call to Action Box */}
-          <div className="p-4 rounded-lg bg-gradient-to-r from-slate-950 to-cyan-950/40 border border-cyan-800/40 space-y-2">
-            <div className="flex items-center justify-between">
-              <span className="text-xs font-mono font-bold text-white uppercase">Optimal Repair Window Status</span>
-              <span className="text-xs font-mono text-emerald-400 font-semibold">Pre-p10 Margin Intact</span>
-            </div>
-            <p className="text-xs text-slate-300 font-mono">
-              The recommended intervention window (Wed Oct 7 Scheduled PM) starts at Day 3.2, comfortably before the p10 early failure threshold ({rulDetails.p10} days).
-            </p>
-            <div className="pt-2">
-              <button
-                onClick={() => onOpenDecisionBrief(asset.id)}
-                className="w-full py-2 px-3 rounded-md bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-mono font-bold text-xs transition-colors flex items-center justify-center gap-1.5"
-              >
-                <span>Review Structured Decision Brief & Authorize Repair</span>
-                <ChevronRight className="w-4 h-4" />
-              </button>
-            </div>
+          <div className="p-3 rounded border border-slate-800 bg-slate-900/20 text-[11px] text-slate-400 flex items-center justify-between mt-2">
+            <span>Recommended window starts before p10 threshold</span>
+            <button
+              onClick={() => onOpenDecisionBrief(asset.id)}
+              className="text-cyan-400 hover:text-cyan-300 transition-colors font-medium flex items-center gap-1"
+            >
+              Review Decision Brief →
+            </button>
           </div>
         </div>
       </div>

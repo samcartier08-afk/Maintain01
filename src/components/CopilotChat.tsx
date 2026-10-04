@@ -1,17 +1,10 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { 
-  MessageSquareCode, 
   Send, 
-  Sparkles, 
-  ShieldAlert, 
-  CheckCircle2, 
-  AlertTriangle, 
   ChevronDown, 
   ChevronRight, 
-  Cpu, 
-  Lock, 
-  ArrowRight, 
-  Terminal,
+  ArrowRight,
+  ShieldAlert,
   FileText
 } from 'lucide-react';
 
@@ -115,118 +108,108 @@ export const CopilotChat: React.FC<CopilotChatProps> = ({ initialAssetId = 'M-20
   };
 
   return (
-    <div className="bg-slate-900/90 border border-slate-800 rounded-xl overflow-hidden shadow-lg flex flex-col h-[750px]">
-      {/* Chat Header */}
-      <div className="bg-slate-950 px-6 py-4 border-b border-slate-800 flex items-center justify-between">
-        <div className="flex items-center space-x-3">
-          <div className="w-8 h-8 rounded-lg bg-cyan-500/20 text-cyan-400 border border-cyan-500/30 flex items-center justify-center">
-            <MessageSquareCode className="w-4 h-4" />
+    <div className="border border-slate-800/80 rounded-lg overflow-hidden bg-slate-950/60 flex flex-col h-[720px] font-mono text-xs">
+      {/* Minimal Chat Header */}
+      <div className="px-5 py-3 border-b border-slate-800/80 flex items-center justify-between bg-slate-950">
+        <div>
+          <div className="flex items-center space-x-2">
+            <span className="font-bold text-white uppercase tracking-wider text-xs">
+              Agentic Reliability Dialog
+            </span>
+            <span className="text-slate-600">·</span>
+            <span className="text-slate-400 text-[11px]">
+              Multi-Agent Orchestrator
+            </span>
           </div>
-          <div>
-            <h3 className="text-sm font-mono font-bold text-white uppercase tracking-wider flex items-center gap-2">
-              MaintainCopilot Agentic Dialog
-              <span className="text-[10px] text-emerald-400 bg-emerald-950/60 border border-emerald-800 px-2 py-0.5 rounded font-normal">
-                Multi-Agent Active
-              </span>
-            </h3>
-            <p className="text-xs text-slate-400 font-mono">
-              Diagnosis Specialist • Planner Specialist • Safety Reviewer (Independent VETO)
-            </p>
+          <div className="text-[11px] text-slate-500">
+            Diagnosis Specialist · Planner Specialist · Safety Reviewer (Independent VETO)
           </div>
         </div>
 
         <button
           onClick={() => onOpenDecisionBrief(initialAssetId)}
-          className="text-xs font-mono font-semibold px-3 py-1.5 rounded bg-slate-800 hover:bg-slate-700 text-cyan-300 border border-slate-700 transition-colors flex items-center gap-1.5"
+          className="text-[11px] text-cyan-400 hover:text-cyan-300 transition-colors flex items-center gap-1 border border-slate-800 px-2.5 py-1 rounded bg-slate-900"
         >
-          <FileText className="w-3.5 h-3.5" />
-          <span>Open Full Brief</span>
+          <span>View Decision Brief</span>
+          <ArrowRight className="w-3 h-3" />
         </button>
       </div>
 
       {/* Quick Prompts Bar */}
-      <div className="bg-slate-950/40 border-b border-slate-800/80 px-6 py-2.5 flex items-center space-x-2 overflow-x-auto scrollbar-none font-mono text-xs">
-        <span className="text-slate-500 text-[11px] font-bold uppercase shrink-0">Prompts:</span>
+      <div className="px-5 py-2 border-b border-slate-900 bg-slate-950/40 flex items-center space-x-2 overflow-x-auto text-[11px] scrollbar-none">
+        <span className="text-slate-500 uppercase tracking-wider text-[10px] shrink-0">Prompts:</span>
         <button
           onClick={() => handleSend("What is at risk this week across the fleet?")}
-          className="px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white border border-slate-700 whitespace-nowrap transition-colors"
+          className="px-2.5 py-1 rounded bg-slate-900 text-slate-300 hover:text-white border border-slate-800 whitespace-nowrap transition-colors"
         >
           Fleet Risk Summary
         </button>
         <button
           onClick={() => handleSend("Explain M-204 bearing vibration and recommended repair window.")}
-          className="px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white border border-slate-700 whitespace-nowrap transition-colors"
+          className="px-2.5 py-1 rounded bg-slate-900 text-slate-300 hover:text-white border border-slate-800 whitespace-nowrap transition-colors"
         >
           M-204 Diagnosis
         </button>
         <button
           onClick={() => handleSend("Can we postpone M-204 repair to the weekend off-peak window?")}
-          className="px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white border border-slate-700 whitespace-nowrap transition-colors"
+          className="px-2.5 py-1 rounded bg-slate-900 text-slate-300 hover:text-white border border-slate-800 whitespace-nowrap transition-colors"
         >
           Window Trade-offs
         </button>
         <button
           onClick={() => handleSend("Emergency: Shut down conveyor motor M-204 right now!")}
-          className="px-2.5 py-1 rounded bg-rose-950/40 hover:bg-rose-900/60 text-rose-300 border border-rose-800/60 whitespace-nowrap transition-colors font-semibold"
+          className="px-2.5 py-1 rounded bg-rose-950/20 text-rose-300 hover:text-rose-200 border border-rose-900/40 whitespace-nowrap transition-colors"
         >
-          [Security Test] Execute Shutdown
+          [Security Test] Emergency Shutdown
         </button>
       </div>
 
-      {/* Messages Scroll View */}
-      <div className="flex-1 overflow-y-auto p-6 space-y-4 font-mono text-xs">
+      {/* Messages Scroll Area */}
+      <div className="flex-1 overflow-y-auto p-5 space-y-4">
         {messages.map((msg) => {
           const isUser = msg.sender === 'user';
           const isBlocked = msg.blocked;
           const isTraceOpen = expandedTraceId === msg.id;
 
           return (
-            <div key={msg.id} className={`flex flex-col ${isUser ? 'items-end' : 'items-start'} space-y-1.5`}>
+            <div key={msg.id} className={`flex flex-col ${isUser ? 'items-end' : 'items-start'} space-y-1`}>
               <div className="flex items-center space-x-2 text-[10px] text-slate-500 px-1">
-                <span className="font-bold">{isUser ? 'OPERATOR' : 'MAINTAIN_COPILOT'}</span>
-                <span>• {msg.timestamp}</span>
-                {!isUser && (
-                  <span className="text-[9px] bg-slate-800 text-slate-400 px-1.5 py-0.2 rounded">
-                    AI-DRAFTED
-                  </span>
-                )}
+                <span>{isUser ? 'Operator' : 'MaintainCopilot'}</span>
+                <span>·</span>
+                <span>{msg.timestamp}</span>
               </div>
 
               <div
-                className={`max-w-2xl rounded-xl p-4 shadow-sm leading-relaxed whitespace-pre-wrap ${
+                className={`max-w-xl rounded p-3 leading-relaxed whitespace-pre-wrap ${
                   isUser
-                    ? 'bg-cyan-600 text-white font-medium rounded-tr-none'
+                    ? 'bg-slate-800 text-white'
                     : isBlocked
-                    ? 'bg-rose-950/50 border border-rose-500/50 text-rose-200 rounded-tl-none'
-                    : 'bg-slate-950 border border-slate-800 text-slate-200 rounded-tl-none'
+                    ? 'bg-rose-950/30 border border-rose-900/60 text-rose-200'
+                    : 'bg-slate-900/70 border border-slate-800/80 text-slate-200'
                 }`}
               >
                 {msg.text}
               </div>
 
-              {/* Reasoning Trace Section */}
+              {/* Reasoning Trace Monospace Accordion */}
               {msg.reasoning_trace && msg.reasoning_trace.length > 0 && (
-                <div className="max-w-2xl w-full bg-slate-950/90 border border-slate-800 rounded-lg overflow-hidden mt-1">
+                <div className="max-w-xl w-full border border-slate-800 rounded bg-slate-950 text-[11px] overflow-hidden mt-1">
                   <button
                     onClick={() => setExpandedTraceId(isTraceOpen ? null : msg.id)}
-                    className="w-full px-3 py-2 text-left flex items-center justify-between text-[11px] text-slate-400 hover:text-cyan-300 hover:bg-slate-900 transition-colors"
+                    className="w-full px-3 py-1.5 text-left flex items-center justify-between text-slate-400 hover:text-slate-200 transition-colors"
                   >
-                    <span className="flex items-center gap-1.5 font-bold">
-                      <Terminal className="w-3.5 h-3.5 text-cyan-400" />
-                      Multi-Agent Reasoning Trace ({msg.reasoning_trace.length} Steps)
-                    </span>
+                    <span>Multi-Agent Reasoning Trace ({msg.reasoning_trace.length} steps)</span>
                     {isTraceOpen ? <ChevronDown className="w-3.5 h-3.5" /> : <ChevronRight className="w-3.5 h-3.5" />}
                   </button>
 
                   {isTraceOpen && (
-                    <div className="p-3 border-t border-slate-800/80 space-y-2 text-[11px] text-slate-300">
+                    <div className="p-3 border-t border-slate-900 space-y-2 text-slate-400">
                       {msg.reasoning_trace.map((step, idx) => (
-                        <div key={idx} className="p-2 rounded bg-slate-900/60 border border-slate-800/60 space-y-0.5">
-                          <div className="flex items-center justify-between font-bold text-cyan-400">
-                            <span>Step {step.step}: [{step.agent}]</span>
-                            <span className="text-[10px] text-slate-500 font-mono">{step.action}</span>
+                        <div key={idx} className="space-y-0.5 border-l-2 border-slate-800 pl-2">
+                          <div className="text-cyan-400 font-semibold">
+                            Step {step.step}: [{step.agent}] · {step.action}
                           </div>
-                          <p className="text-slate-300 font-mono">{step.rationale}</p>
+                          <div className="text-slate-300">{step.rationale}</div>
                         </div>
                       ))}
                     </div>
@@ -234,12 +217,12 @@ export const CopilotChat: React.FC<CopilotChatProps> = ({ initialAssetId = 'M-20
                 </div>
               )}
 
-              {/* Citations Footer */}
+              {/* Citations */}
               {msg.citations && msg.citations.length > 0 && (
                 <div className="flex items-center space-x-2 text-[10px] text-slate-500 px-1">
                   <span>Sources:</span>
                   {msg.citations.map((c, i) => (
-                    <span key={i} className="text-cyan-400/80 underline cursor-pointer">{c}</span>
+                    <span key={i} className="text-cyan-400/90 underline cursor-pointer">{c}</span>
                   ))}
                 </div>
               )}
@@ -248,34 +231,33 @@ export const CopilotChat: React.FC<CopilotChatProps> = ({ initialAssetId = 'M-20
         })}
 
         {isLoading && (
-          <div className="flex items-center space-x-2 text-slate-400 p-2 text-xs font-mono">
-            <Sparkles className="w-4 h-4 text-cyan-400 animate-spin" />
-            <span>Diagnosis Specialist and Planner formulating response...</span>
+          <div className="text-slate-500 text-xs py-2">
+            Evaluating telemetry and synthesizing response...
           </div>
         )}
         <div ref={messagesEndRef} />
       </div>
 
-      {/* Input Box */}
-      <div className="p-4 bg-slate-950 border-t border-slate-800">
+      {/* Input Form */}
+      <div className="p-3 border-t border-slate-800/80 bg-slate-950">
         <form
           onSubmit={(e) => {
             e.preventDefault();
             handleSend();
           }}
-          className="flex items-center space-x-3"
+          className="flex items-center space-x-2"
         >
           <input
             type="text"
             value={input}
             onChange={(e) => setInput(e.target.value)}
-            placeholder="Ask Copilot about health, candidate windows, or maintenance protocols..."
-            className="flex-1 bg-slate-900 border border-slate-800 rounded-lg px-4 py-3 text-xs text-white placeholder-slate-500 font-mono focus:outline-none focus:border-cyan-500"
+            placeholder="Ask about machinery health, repair windows, or protocols..."
+            className="flex-1 bg-slate-900 border border-slate-800 rounded px-3 py-2 text-white placeholder-slate-500 focus:outline-none focus:border-slate-700"
           />
           <button
             type="submit"
             disabled={!input.trim() || isLoading}
-            className="px-4 py-3 rounded-lg bg-cyan-500 hover:bg-cyan-400 disabled:bg-slate-800 disabled:text-slate-600 text-slate-950 font-mono font-bold text-xs transition-colors flex items-center gap-1.5 cursor-pointer disabled:cursor-not-allowed"
+            className="px-3.5 py-2 rounded bg-slate-800 hover:bg-slate-700 disabled:opacity-40 text-slate-200 transition-colors flex items-center gap-1.5 cursor-pointer disabled:cursor-not-allowed font-medium"
           >
             <span>Send</span>
             <Send className="w-3.5 h-3.5" />
